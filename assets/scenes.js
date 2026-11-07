@@ -230,9 +230,40 @@ for (const form of document.querySelectorAll('[data-contact-form]')) {
       return;
     }
     const data = new FormData(form);
-    const text = [data.get('name'), data.get('contact'), data.get('message')].filter(Boolean).join('\n');
+    const text = Array.from(data.values()).filter((value) => typeof value === 'string' && value.trim()).join('\n');
     const telegram = new URL('https://t.me/sexpeditsiya_help');
     telegram.searchParams.set('text', text);
     window.open(telegram.href, '_blank', 'noopener,noreferrer');
+  });
+}
+
+for (const quiz of document.querySelectorAll('.editorial-quiz')) {
+  const steps = [...quiz.querySelectorAll('[data-quiz-step]')];
+  const previous = quiz.querySelector('[data-quiz-prev]');
+  const next = quiz.querySelector('[data-quiz-next]');
+  const finish = quiz.querySelector('[data-quiz-finish]');
+  const progress = quiz.querySelector('progress');
+  let current = 0;
+
+  function show(index) {
+    steps[current].hidden = true;
+    current = index;
+    steps[current].hidden = false;
+    steps[current].parentElement.scrollTop = 0;
+    progress.value = index + 1;
+    previous.hidden = index === 0;
+    next.hidden = index === steps.length - 1;
+    finish.hidden = !next.hidden;
+    steps[current].querySelector('input, textarea')?.focus({ preventScroll: true });
+  }
+
+  previous.addEventListener('click', () => show(current - 1));
+  next.addEventListener('click', () => {
+    const invalid = [...steps[current].querySelectorAll('input[required]')].find((input) => !input.validity.valid);
+    if (invalid) invalid.reportValidity();
+    else show(current + 1);
+  });
+  quiz.addEventListener('input', (event) => {
+    if (event.target.matches('input[type="range"]')) event.target.nextElementSibling.value = event.target.value;
   });
 }
