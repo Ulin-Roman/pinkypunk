@@ -31,6 +31,40 @@ function showLinkedDialog() {
   showDialog(dialogFor(location.hash));
 }
 
+const mobileMenu = document.getElementById('pp-menu');
+const menuTrigger = document.querySelector('[data-pp-menu-open]');
+if (mobileMenu && menuTrigger) {
+  const smallScreen = matchMedia('(width < 900px)');
+  menuTrigger.addEventListener('click', () => {
+    if (!smallScreen.matches) return;
+    showDialog(mobileMenu);
+    if (mobileMenu.open) menuTrigger.setAttribute('aria-expanded', 'true');
+  });
+  mobileMenu.addEventListener('close', () => menuTrigger.setAttribute('aria-expanded', 'false'));
+  smallScreen.addEventListener('change', () => {
+    if (!smallScreen.matches && mobileMenu.open) mobileMenu.close();
+  });
+}
+
+const scrollTopButton = document.querySelector('[data-pp-scroll-top]');
+if (scrollTopButton) {
+  let frame = 0;
+  const update = () => {
+    frame = 0;
+    const hidden = scrollY < Math.min(innerHeight * .8, 550);
+    if (scrollTopButton.hidden !== hidden) scrollTopButton.hidden = hidden;
+  };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule, { passive: true });
+  addEventListener('pageshow', schedule);
+  scrollTopButton.addEventListener('click', (event) => {
+    if (event.detail === 0) document.querySelector('.pp-toolbar-logo')?.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+  });
+  update();
+}
+
 document.addEventListener('pp:cart-open', () => showDialog(dialogFor('#opencart')));
 
 document.addEventListener('click', (event) => {
