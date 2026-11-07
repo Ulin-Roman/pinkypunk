@@ -1,0 +1,15 @@
+#rec3128061401 .artboard{height:184px;background-color:#6232b9;overflow:visible}
+#rec3128061401 .art-tint{height:184px}
+#rec3128061401 .art-background{height:184px;background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
+@media screen and (max-width:1199px){#rec3128061401 .artboard,#rec3128061401 .art-tint,#rec3128061401 .art-background{height:144px}
+#rec3128061401 .art-background{background-attachment:scroll}
+}
+@media screen and (max-width:959px){#rec3128061401 .artboard,#rec3128061401 .art-tint,#rec3128061401 .art-background{height:147px}
+#rec3128061401 .art-background{background-attachment:scroll}
+}
+@media screen and (max-width:639px){#rec3128061401 .artboard,#rec3128061401 .art-tint,#rec3128061401 .art-background{height:133px}
+#rec3128061401 .art-background{background-attachment:scroll}
+}
+@media screen and (max-width:399px){#rec3128061401 .artboard,#rec3128061401 .art-tint,#rec3128061401 .art-background{height:109px}
+#rec3128061401 .art-background{background-attachment:scroll}
+}

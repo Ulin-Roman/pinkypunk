@@ -1,0 +1,12 @@
+#rec2522351301 .artboard{height:130px;background-color:#000000}
+#rec2522351301 .art-tint{height:130px}
+#rec2522351301 .art-background{height:130px;background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
+@media screen and (max-width:1199px){#rec2522351301 .art-background{background-attachment:scroll}
+}
+@media screen and (max-width:959px){#rec2522351301 .art-background{background-attachment:scroll}
+}
+@media screen and (max-width:639px){#rec2522351301 .art-background{background-attachment:scroll}
+}
+@media screen and (max-width:479px){#rec2522351301 .artboard,#rec2522351301 .art-tint,#rec2522351301 .art-background{height:110px}
+#rec2522351301 .art-background{background-attachment:scroll}
+}
