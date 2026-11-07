@@ -240,19 +240,6 @@ img { display: block; max-width: 100%; }
   background: var(--paper);
   color: var(--ink);
 }
-.back-top {
-  display: grid;
-  place-items: center;
-  position: fixed;
-  z-index: 20;
-  bottom: 1rem;
-  left: 1rem;
-  width: 2.7rem;
-  height: 2.7rem;
-  border-radius: 50%;
-  background: var(--paper);
-  color: var(--ink);
-}
 .content-dialog {
   position: fixed;
   width: min(650px, 100% - 2rem);
@@ -536,18 +523,7 @@ dialog.pp-dialog.telegram-popup {
   --pp-text-font: Circe, Arial, sans-serif;
   --pp-content-width: 1160px;
   --pp-page-gutter: clamp(16px, 3vw, 40px);
-}
-
-.pp-preview-note {
-  position: fixed;
-  z-index: 99;
-  inset: auto auto .6rem .6rem;
-  pointer-events: none;
-  padding: .3rem .55rem;
-  border-radius: .35rem;
-  background: var(--pp-dark);
-  color: white;
-  font: 400 .8rem/1.25 var(--pp-text-font);
+  --pp-scroll-edge: max(14px, env(safe-area-inset-right));
 }
 
 .pp-media-missing {
@@ -614,30 +590,22 @@ html { scroll-padding-top: 88px; }
   min-height: 38px;
   color: inherit;
   text-decoration: none;
-  text-transform: uppercase;
 }
 
 .pp-brand-wordmark {
-  display: block;
-  width: clamp(114px, 13vw, 166px);
-  height: auto;
+  font: 700 clamp(18px, 1.65vw, 24px)/1 var(--pp-brand-font);
+  letter-spacing: .1em;
+  white-space: nowrap;
 }
 
 .pp-brand-train {
-  position: relative;
   flex: none;
   display: block;
-  width: 50px;
-  height: 34px;
-  overflow: hidden;
+  width: clamp(62px, 6.3vw, 90px);
 }
 
 .pp-brand-train img {
-  position: absolute;
-  bottom: -1px;
-  left: -9px;
-  width: 98px;
-  max-width: none;
+  width: 100%;
   height: auto;
 }
 
@@ -708,8 +676,8 @@ html { scroll-padding-top: 88px; }
 .pp-scroll-top {
   position: fixed;
   z-index: 101;
-  left: max(14px, env(safe-area-inset-left));
-  bottom: max(22px, env(safe-area-inset-bottom));
+  right: var(--pp-scroll-edge);
+  bottom: max(22px, env(safe-area-inset-bottom), var(--pp-scroll-cookie-clearance, 0px));
   display: grid;
   place-items: center;
   width: 46px;
@@ -725,7 +693,6 @@ html { scroll-padding-top: 88px; }
 }
 .pp-scroll-top svg { width: 22px; height: 22px; }
 .pp-scroll-top:is(:hover, :focus-visible) { color: var(--pp-yellow); background: var(--pp-dark); }
-body[data-pp-demo] .pp-scroll-top { bottom: max(43px, env(safe-area-inset-bottom)); }
 
 .pp-cart-count {
   position: absolute;
@@ -761,19 +728,12 @@ main > .scene:first-child :is(
   }
 
   .pp-toolbar-logo { gap: 5px; }
-  .pp-brand-wordmark { width: clamp(76px, 26vw, 154px); }
-  .pp-brand-train { width: 39px; height: 29px; }
-  .pp-brand-train img { width: 78px; left: -8px; }
+  .pp-brand-wordmark { font-size: clamp(10px, 3.35vw, 19px); }
+  .pp-brand-train { width: clamp(48px, 15vw, 76px); }
   .pp-toolbar-actions { gap: 1px; }
   .pp-toolbar-icon { width: clamp(35px, 9.7vw, 42px); min-height: 44px; }
   .pp-primary-nav { display: none; }
   .pp-menu-trigger { display: grid; }
-}
-
-@media (max-width: 640px) {
-  body:has(.pp-cookie-notice:not([hidden])) .pp-scroll-top {
-    bottom: calc(108px + env(safe-area-inset-bottom));
-  }
 }
 
 .pp-cookie-notice {
@@ -1343,6 +1303,11 @@ html:has(.pp-dialog[open]) {
 
   body:has(.pp-cookie-notice:not([hidden])) .pp-protected-panel {
     bottom: calc(90px + env(safe-area-inset-bottom));
+  }
+
+  body:has(.pp-scroll-top:not([hidden])) .pp-protected-panel {
+    right: calc(var(--pp-scroll-edge) + 54px);
+    max-width: calc(100% - var(--pp-scroll-edge) - 66px);
   }
 }
 

@@ -58,6 +58,14 @@ if (scrollTopButton) {
   addEventListener('scroll', schedule, { passive: true });
   addEventListener('resize', schedule, { passive: true });
   addEventListener('pageshow', schedule);
+  if (cookieNotice) {
+    const keepCookieClear = () => {
+      const clearance = cookieNotice.hidden ? 0 : innerHeight - cookieNotice.getBoundingClientRect().top + 12;
+      scrollTopButton.style.setProperty('--pp-scroll-cookie-clearance', `${clearance}px`);
+    };
+    new ResizeObserver(keepCookieClear).observe(cookieNotice);
+    addEventListener('resize', keepCookieClear, { passive: true });
+  }
   scrollTopButton.addEventListener('click', (event) => {
     if (event.detail === 0) document.querySelector('.pp-toolbar-logo')?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
