@@ -37,7 +37,6 @@ if (catalog) {
   const fields = [search, sort, min, max].filter(Boolean);
   const priceRange = form.querySelector('[data-catalog-price-range]');
   const priceHandles = priceRange ? Array.from(priceRange.querySelectorAll('[data-catalog-price-bound]')) : [];
-  const reset = form.querySelector('[data-catalog-reset]');
   const priceFormat = new Intl.NumberFormat('ru', { maximumFractionDigits: 2 });
   const parsePrice = (value) => {
     const plain = value.replace(/\s/g, '').replace(',', '.');
@@ -75,8 +74,7 @@ if (catalog) {
   const mobile = matchMedia('(max-width: 960px)');
   const searchToggle = form.querySelector('[aria-controls="catalog-search"]');
   const searchClose = form.querySelector('[data-catalog-search-close]');
-  const facets = document.getElementById('catalog-facets');
-  const filterDialog = document.getElementById('catalog-filters-dialog');
+  const sortDialog = form.querySelector('#catalog-sort-dialog');
 
   function setExpanded(button, expanded) {
     button.setAttribute('aria-expanded', String(expanded));
@@ -90,23 +88,18 @@ if (catalog) {
 
   searchToggle.addEventListener('click', () => toggleSearch(true));
   searchClose.addEventListener('click', () => toggleSearch(false));
-  const dialogs = [];
   for (const control of form.querySelectorAll('[data-catalog-toggle][aria-haspopup="dialog"]')) {
     const dialog = document.getElementById(control.getAttribute('aria-controls'));
-    const content = dialog.querySelector('[data-catalog-modal-content]');
-    dialogs.push(dialog);
     control.addEventListener('click', () => {
-      if (dialog === filterDialog) content.append(facets);
-      for (const option of content.querySelectorAll('[data-catalog-sort]')) {
+      for (const option of dialog.querySelectorAll('[data-catalog-sort]')) {
         option.setAttribute('aria-pressed', String(option.dataset.catalogSort === sort.value));
       }
       dialog.showModal();
-      control.setAttribute('aria-expanded', 'true');
+      setExpanded(control, true);
     });
     dialog.addEventListener('close', () => {
-      if (dialog === filterDialog) dialog.before(facets);
-      control.setAttribute('aria-expanded', 'false');
-      if (mobile.matches) control.focus();
+      setExpanded(control, false);
+      (control.getClientRects().length ? control : sort).focus();
     });
     dialog.addEventListener('click', (event) => {
       const option = event.target.closest('[data-catalog-sort]');
@@ -116,14 +109,15 @@ if (catalog) {
         dialog.close();
       } else if (event.target.closest('[data-catalog-close]')) {
         dialog.close();
-      } else if (event.target === dialog && event.clientY < dialog.getBoundingClientRect().top) {
-        dialog.close();
+      } else if (event.target === dialog) {
+        const { top, right, bottom, left } = dialog.getBoundingClientRect();
+        if (event.clientX < left || event.clientX > right || event.clientY < top || event.clientY > bottom) dialog.close();
       }
     });
   }
   mobile.addEventListener('change', () => {
     if (mobile.matches) return;
-    for (const dialog of dialogs) if (dialog.open) dialog.close();
+    if (sortDialog.open) sortDialog.close();
     toggleSearch(false);
   });
   form.addEventListener('keydown', (event) => {
@@ -254,7 +248,6 @@ if (catalog) {
         option.setAttribute('aria-pressed', String(option.dataset.catalogSelectOption === inputs[0].value));
       }
     }
-    if (reset) reset.hidden = !lowerActive && !upperActive && !available?.checked && !selected.some(({ values }) => values.length);
     let matched = 0;
     let firstNewCard;
     for (const card of orderedCards) {
@@ -303,7 +296,7 @@ if (catalog) {
     filter(false, firstNewIndex);
   });
   form.addEventListener('input', () => filter(true));
-  form.addEventListener('reset', () => queueMicrotask(() => filter(true)));
+  form.addEventListener('reset', () => setTimeout(() => filter(true), 0));
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     filter(true);
