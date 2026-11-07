@@ -120,6 +120,8 @@ if (cart) {
   function render(message = '') {
     const focused = document.activeElement;
     const focusedRow = list.contains(focused) ? focused.closest('[data-cart-row]') : null;
+    const followingRow = focusedRow?.nextElementSibling?.dataset.cartRow;
+    const precedingRow = focusedRow?.previousElementSibling?.dataset.cartRow;
     const rows = new Map();
     let count = 0;
     let amount = 0;
@@ -145,13 +147,14 @@ if (cart) {
     }
 
     if (focusedRow) {
-      const row = rows.get(focusedRow.dataset.cartRow);
+      const sameRow = rows.get(focusedRow.dataset.cartRow);
+      const row = sameRow ?? rows.get(followingRow) ?? rows.get(precedingRow);
       const focusedAction = focused.dataset.cartAction;
-      const next = row?.querySelector(focusedAction ? `[data-cart-action="${focusedAction}"]:not(:disabled)` : 'a')
+      const next = row?.querySelector(sameRow && focusedAction ? `[data-cart-action="${focusedAction}"]:not(:disabled)` : 'a')
         ?? row?.querySelector('button:not(:disabled)')
         ?? list.querySelector('button:not(:disabled)')
         ?? cart.querySelector('[data-cart-close]');
-      next?.focus();
+      next?.focus({ preventScroll: Boolean(sameRow) });
     }
   }
 

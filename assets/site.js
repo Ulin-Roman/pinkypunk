@@ -1,7 +1,3 @@
-const header = document.querySelector('[data-pp-header]');
-const menu = document.querySelector('#pp-menu');
-const menuButton = document.querySelector('.pp-menu-toggle');
-const menuShade = document.querySelector('.pp-menu-shade');
 const ageDialog = document.querySelector('#pp-age');
 const cookieNotice = document.querySelector('[data-pp-cookie]');
 
@@ -21,34 +17,6 @@ function remember(key) {
   }
 }
 
-function setMenu(open) {
-  if (!menu) return;
-  menu.hidden = !open;
-  menuShade.hidden = !open;
-  menuButton.setAttribute('aria-expanded', String(open));
-  header.classList.toggle('pp-menu-open', open);
-}
-
-if (header) {
-  if (header.dataset.ppHeader === 'home') {
-    const updateToolbar = () => header.classList.toggle('pp-scrolled', scrollY >= 400);
-    addEventListener('scroll', updateToolbar, { passive: true });
-    addEventListener('pageshow', updateToolbar);
-    updateToolbar();
-  }
-
-  menuButton.addEventListener('click', () => setMenu(menu.hidden));
-  menuShade.addEventListener('click', () => setMenu(false));
-  menu.addEventListener('click', (event) => {
-    if (event.target.closest('a[href]')) setMenu(false);
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape' || menu.hidden) return;
-    setMenu(false);
-    menuButton.focus();
-  });
-}
-
 function dialogFor(hash) {
   const dialog = hash && document.getElementById(hash.slice(1));
   return dialog instanceof HTMLDialogElement && dialog !== ageDialog ? dialog : null;
@@ -56,7 +24,6 @@ function dialogFor(hash) {
 
 function showDialog(dialog) {
   if (!dialog || dialog.open || ageDialog?.open) return;
-  setMenu(false);
   dialog.showModal();
 }
 

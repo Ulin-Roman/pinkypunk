@@ -11,9 +11,14 @@ const heroes = Array.from(document.querySelectorAll('.artboard[data-hero-scale]'
     })),
   };
 });
+const catalogNavigation = document.querySelectorAll('[data-catalog-scale]');
+const navigationBreakpoints = [1200, 980, 640, 480, 360, 320];
 
 function resizeCatalogHeroes() {
   const viewport = document.documentElement.clientWidth;
+  const navigationWidth = navigationBreakpoints.find((width) => window.innerWidth >= width);
+  const navigationZoom = navigationWidth ? (viewport / navigationWidth).toFixed(3) : '';
+  catalogNavigation.forEach((nav) => { nav.style.zoom = navigationZoom; });
   for (const { board, backgrounds, sizes } of heroes) {
     const size = sizes.find(({ media }) => media.matches);
     if (!size?.height) {
