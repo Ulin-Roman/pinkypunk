@@ -140,7 +140,8 @@ function makePanel() {
   fallback.href = new URL(`/${path.replace(/^\/+/, '')}`, 'https://pinkypunk.ru');
   fallback.hidden = true;
   panel.append(status, button, fallback);
-  document.body.append(panel);
+  const catalogHero = document.querySelector('#main > .scene:first-child > .artboard[data-hero-scale]');
+  (catalogHero ?? document.body).append(panel);
   keepPurchaseTargetsClear(panel);
   return { status, button, fallback };
 }

@@ -523,7 +523,15 @@ dialog.pp-dialog.telegram-popup {
   --pp-text-font: Circe, Arial, sans-serif;
   --pp-content-width: 1160px;
   --pp-page-gutter: clamp(16px, 3vw, 40px);
-  --pp-scroll-edge: max(14px, env(safe-area-inset-right));
+  --pp-scroll-edge: max(24px, env(safe-area-inset-right));
+  --pp-scroll-size: 56px;
+}
+
+@media (max-width: 680px) {
+  :root {
+    --pp-scroll-edge: max(16px, env(safe-area-inset-right));
+    --pp-scroll-size: 49px;
+  }
 }
 
 .pp-media-missing {
@@ -542,6 +550,34 @@ dialog.pp-dialog.telegram-popup {
 .product-tile .pp-media-missing { aspect-ratio: 1; }
 
 html { scroll-padding-top: 88px; }
+
+@media (min-width: 1600px) {
+  @supports (zoom: 1.1) {
+    :root {
+      --pp-wide-scale: 1.08;
+      --pp-content-viewport-width: calc(100vw / var(--pp-wide-scale));
+      --pp-content-viewport-height: calc(100svh / var(--pp-wide-scale));
+      scroll-padding-top: calc(88px * var(--pp-wide-scale));
+    }
+
+    #main, .pp-header { zoom: var(--pp-wide-scale); }
+  }
+  @supports (zoom: calc(100vw / 1600px)) {
+    :root { --pp-wide-scale: clamp(1, calc(1 + (100vw - 1600px) / 3600px), 1.4); }
+  }
+}
+
+@media (min-width: 2240px) {
+  @supports (zoom: 1.1) and (not (zoom: calc(100vw / 1600px))) {
+    :root { --pp-wide-scale: 1.25; }
+  }
+}
+
+@media (min-width: 3000px) {
+  @supports (zoom: 1.1) and (not (zoom: calc(100vw / 1600px))) {
+    :root { --pp-wide-scale: 1.4; }
+  }
+}
 
 .pp-header {
   position: fixed;
@@ -677,11 +713,11 @@ html { scroll-padding-top: 88px; }
   position: fixed;
   z-index: 101;
   right: var(--pp-scroll-edge);
-  bottom: max(22px, env(safe-area-inset-bottom), var(--pp-scroll-cookie-clearance, 0px));
+  bottom: max(calc(144px + env(safe-area-inset-bottom, 0px)), var(--pp-scroll-cookie-clearance, 0px));
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
+  width: var(--pp-scroll-size);
+  height: var(--pp-scroll-size);
   padding: 0;
   border: 1px solid #fff3;
   border-radius: 50%;
@@ -1306,8 +1342,8 @@ html:has(.pp-dialog[open]) {
   }
 
   body:has(.pp-scroll-top:not([hidden])) .pp-protected-panel {
-    right: calc(var(--pp-scroll-edge) + 54px);
-    max-width: calc(100% - var(--pp-scroll-edge) - 66px);
+    right: calc(var(--pp-scroll-edge) + var(--pp-scroll-size) + 8px);
+    max-width: calc(100% - var(--pp-scroll-edge) - var(--pp-scroll-size) - 20px);
   }
 }
 
@@ -1355,6 +1391,7 @@ html:has(.pp-dialog[open]) {
 .pp-cart-item-title { font-weight: 700; }
 a.pp-cart-item-title:hover { text-decoration: underline; }
 .pp-cart-unit-price { font-size: .875rem; }
+.pp-cart-product-link { color: var(--pp-purple); font-size: .875rem; text-decoration: underline; }
 
 .pp-cart-quantity {
   display: grid;
@@ -1581,7 +1618,7 @@ a.pp-cart-item-title:hover { text-decoration: underline; }
 }
 
 .editorial-ticker-group {
-  min-width: 100vw;
+  min-width: var(--pp-content-viewport-width, 100vw);
   justify-content: space-around;
   padding-inline: 18px;
 }
@@ -1954,8 +1991,8 @@ body[data-pp-media-path="/naduv"] .editorial-ticker .t1003__outer { position: re
 /* The slanted stripes overlap each other without pulling the product sections out of flow. */
 :where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker {
   --ticker-slope: 2deg;
-  --ticker-gutter: calc(50vw * tan(var(--ticker-slope)));
-  --ticker-rotated-height: calc(var(--ticker-height) + 100vw * sin(var(--ticker-slope)));
+  --ticker-gutter: calc(var(--pp-content-viewport-width, 100vw) / 2 * tan(var(--ticker-slope)));
+  --ticker-rotated-height: calc(var(--ticker-height) + var(--pp-content-viewport-width, 100vw) * sin(var(--ticker-slope)));
 }
 :where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker:is(#rec2746546501, #rec2746607101, #rec2746608401, #rec2746610901) { --ticker-slope: 6deg; }
 :where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker:is(#rec2746546601, #rec2746607201, #rec2746608501, #rec2746611001) { --ticker-slope: 3deg; }

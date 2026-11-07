@@ -1,10 +1,10 @@
-#rec2007799371 .artboard{min-height:890px;height:100svh;background-color:#050505;overflow:visible}
-#rec2007799371 .art-tint{min-height:890px;height:100svh}
-#rec2007799371 .art-background{min-height:890px;height:100svh;background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
+#rec2007799371 .artboard{min-height:890px;height:var(--pp-content-viewport-height, 100svh);background-color:#050505;overflow:visible}
+#rec2007799371 .art-tint{min-height:890px;height:var(--pp-content-viewport-height, 100svh)}
+#rec2007799371 .art-background{min-height:890px;height:var(--pp-content-viewport-height, 100svh);background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
 @media screen and (max-width:1199px){#rec2007799371 .artboard,#rec2007799371 .art-tint,#rec2007799371 .art-background{min-height:570px}
 #rec2007799371 .art-background{background-attachment:scroll}
 }
-@media screen and (max-width:959px){#rec2007799371 .artboard,#rec2007799371 .art-tint,#rec2007799371 .art-background{min-height:820px;height:100svh}
+@media screen and (max-width:959px){#rec2007799371 .artboard,#rec2007799371 .art-tint,#rec2007799371 .art-background{min-height:820px;height:var(--pp-content-viewport-height, 100svh)}
 #rec2007799371 .art-background{background-attachment:scroll}
 }
 @media screen and (max-width:639px){#rec2007799371 .artboard,#rec2007799371 .art-tint,#rec2007799371 .art-background{min-height:340px}

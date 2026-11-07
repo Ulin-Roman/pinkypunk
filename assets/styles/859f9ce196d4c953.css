@@ -1,6 +1,6 @@
-#rec1291013011 .artboard{min-height:600px;height:100svh;background-color:#6232b9;overflow:visible}
-#rec1291013011 .art-tint{min-height:600px;height:100svh}
-#rec1291013011 .art-background{min-height:600px;height:100svh;background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
+#rec1291013011 .artboard{min-height:600px;height:var(--pp-content-viewport-height, 100svh);background-color:#6232b9;overflow:visible}
+#rec1291013011 .art-tint{min-height:600px;height:var(--pp-content-viewport-height, 100svh)}
+#rec1291013011 .art-background{min-height:600px;height:var(--pp-content-viewport-height, 100svh);background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
 @media screen and (max-width:1199px){#rec1291013011 .artboard,#rec1291013011 .art-tint,#rec1291013011 .art-background{min-height:400px}
 #rec1291013011 .art-background{background-attachment:scroll}
 }

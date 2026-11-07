@@ -69,7 +69,12 @@ function itemButton(action, text, label, disabled = false) {
   return button;
 }
 
-function itemRow(item) {
+function officialProductUrl(route) {
+  if (!/^\/catalog\/[a-z0-9-]+\/[a-z0-9-]+\/?$/.test(route)) return '';
+  return new URL(`${route.replace(/\/$/, '')}/`, 'https://pinkypunk.ru').href;
+}
+
+function itemRow(item, showShopLink) {
   const row = element('li', 'pp-cart-row');
   row.dataset.cartRow = item.id;
 
@@ -88,6 +93,15 @@ function itemRow(item) {
   const title = element(url ? 'a' : 'span', 'pp-cart-item-title', item.title);
   if (url) title.href = url;
   info.append(title, element('span', 'pp-cart-unit-price', rubles.format(item.price / 100)));
+  const shopUrl = showShopLink ? officialProductUrl(item.id) : '';
+  if (shopUrl) {
+    const link = element('a', 'pp-cart-product-link', 'Открыть в магазине');
+    link.href = shopUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('aria-label', `Открыть ${item.title} на pinkypunk.ru в новой вкладке`);
+    info.append(link);
+  }
 
   const quantity = element('div', 'pp-cart-quantity');
   quantity.setAttribute('role', 'group');
@@ -111,6 +125,7 @@ if (cart) {
   const total = cart.querySelector('[data-cart-total]');
   const summary = cart.querySelector('[data-cart-summary]');
   const checkout = cart.querySelector('[data-cart-checkout]');
+  const handoff = cart.querySelector('[data-cart-handoff]');
   const status = cart.querySelector('[data-cart-status]');
   const counters = document.querySelectorAll('[data-cart-count]');
   const openers = document.querySelectorAll('[data-cart-open]');
@@ -123,10 +138,11 @@ if (cart) {
     const followingRow = focusedRow?.nextElementSibling?.dataset.cartRow;
     const precedingRow = focusedRow?.previousElementSibling?.dataset.cartRow;
     const rows = new Map();
+    const singleProduct = items.size === 1 ? officialProductUrl(items.keys().next().value) : '';
     let count = 0;
     let amount = 0;
     for (const item of items.values()) {
-      rows.set(item.id, itemRow(item));
+      rows.set(item.id, itemRow(item, items.size > 1));
       count += item.quantity;
       amount += item.price * item.quantity;
     }
@@ -136,11 +152,13 @@ if (cart) {
     total.textContent = rubles.format(amount / 100);
     if (summary) summary.hidden = !count;
     if (checkout) {
-      const route = items.size === 1 ? items.keys().next().value : '';
-      const product = /^\/catalog\/[a-z0-9-]+\/[a-z0-9-]+$/.test(route);
-      checkout.href = product ? new URL(`${route}/`, 'https://pinkypunk.ru').href : cart.dataset.cartUrl;
-      checkout.textContent = product ? 'Открыть товар в магазине' : 'Перейти в магазин';
+      checkout.hidden = !singleProduct;
+      if (singleProduct) checkout.href = singleProduct;
+      else checkout.removeAttribute('href');
     }
+    if (handoff) handoff.textContent = items.size > 1
+      ? 'Откройте товары по ссылкам выше и добавьте нужное количество в корзину pinkypunk.ru.'
+      : 'Добавьте товар в корзину на pinkypunk.ru, чтобы оформить заказ.';
     if (status) status.textContent = message;
 
     for (const counter of counters) {

@@ -1,10 +1,10 @@
-#rec3431295601 .artboard{min-height:820px;height:100svh;background-color:#000000}
-#rec3431295601 .art-tint{min-height:820px;height:100svh;background-image:-webkit-gradient( linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,1)) );background-image:-webkit-linear-gradient(top,rgba(0,0,0,1),rgba(0,0,0,1));background-image:linear-gradient(to bottom,rgba(0,0,0,1),rgba(0,0,0,1));will-change:transform}
-#rec3431295601 .art-background{min-height:820px;height:100svh;background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
-@media screen and (max-width:1199px){#rec3431295601 .artboard,#rec3431295601 .art-tint,#rec3431295601 .art-background{min-height:870px;height:100svh}
+#rec3431295601 .artboard{min-height:820px;height:var(--pp-content-viewport-height, 100svh);background-color:#000000}
+#rec3431295601 .art-tint{min-height:820px;height:var(--pp-content-viewport-height, 100svh);background-image:-webkit-gradient( linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,1)) );background-image:-webkit-linear-gradient(top,rgba(0,0,0,1),rgba(0,0,0,1));background-image:linear-gradient(to bottom,rgba(0,0,0,1),rgba(0,0,0,1));will-change:transform}
+#rec3431295601 .art-background{min-height:820px;height:var(--pp-content-viewport-height, 100svh);background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
+@media screen and (max-width:1199px){#rec3431295601 .artboard,#rec3431295601 .art-tint,#rec3431295601 .art-background{min-height:870px;height:var(--pp-content-viewport-height, 100svh)}
 #rec3431295601 .art-background{background-attachment:scroll}
 }
-@media screen and (max-width:959px){#rec3431295601 .artboard,#rec3431295601 .art-tint,#rec3431295601 .art-background{min-height:600px;height:100svh}
+@media screen and (max-width:959px){#rec3431295601 .artboard,#rec3431295601 .art-tint,#rec3431295601 .art-background{min-height:600px;height:var(--pp-content-viewport-height, 100svh)}
 #rec3431295601 .art-background{background-attachment:scroll}
 }
 @media screen and (max-width:639px){#rec3431295601 .artboard,#rec3431295601 .art-tint,#rec3431295601 .art-background{min-height:550px}

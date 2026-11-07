@@ -1,6 +1,6 @@
-#rec1270293871 .artboard{min-height:600px;height:100svh;background-color:#6232b9;overflow:visible}
-#rec1270293871 .art-tint{min-height:600px;height:100svh}
-#rec1270293871 .art-background{min-height:600px;height:100svh;background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
+#rec1270293871 .artboard{min-height:600px;height:var(--pp-content-viewport-height, 100svh);background-color:#6232b9;overflow:visible}
+#rec1270293871 .art-tint{min-height:600px;height:var(--pp-content-viewport-height, 100svh)}
+#rec1270293871 .art-background{min-height:600px;height:var(--pp-content-viewport-height, 100svh);background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
 @media screen and (max-width:1199px){#rec1270293871 .artboard,#rec1270293871 .art-tint,#rec1270293871 .art-background{min-height:400px}
 #rec1270293871 .art-background{background-attachment:scroll}
 }
@@ -122,9 +122,9 @@
 #rec1270293871 .art-element[data-elem-id="1774436819166"] .atom{white-space:nowrap;background-size:cover}
 }
 
-#rec1270305451 .artboard{min-height:1410px;height:100svh;background-color:#6232b9;overflow:visible}
-#rec1270305451 .art-tint{min-height:1410px;height:100svh}
-#rec1270305451 .art-background{min-height:1410px;height:100svh;background-position:center center;background-attachment:scroll;background-image:url("/pinkypunk/assets/imported/9cb25af71e011de23bf1.webp");background-size:cover;background-repeat:no-repeat}
+#rec1270305451 .artboard{min-height:1410px;height:var(--pp-content-viewport-height, 100svh);background-color:#6232b9;overflow:visible}
+#rec1270305451 .art-tint{min-height:1410px;height:var(--pp-content-viewport-height, 100svh)}
+#rec1270305451 .art-background{min-height:1410px;height:var(--pp-content-viewport-height, 100svh);background-position:center center;background-attachment:scroll;background-image:url("/pinkypunk/assets/imported/9cb25af71e011de23bf1.webp");background-size:cover;background-repeat:no-repeat}
 @media screen and (max-width:1199px){#rec1270305451 .artboard,#rec1270305451 .art-tint,#rec1270305451 .art-background{min-height:1530px}
 #rec1270305451 .art-background{background-attachment:scroll}
 }
@@ -604,9 +604,9 @@
 }
 }
 
-#rec1192591996 .artboard{min-height:1140px;height:100svh;background-color:#6232b9;overflow:visible}
-#rec1192591996 .art-tint{min-height:1140px;height:100svh}
-#rec1192591996 .art-background{min-height:1140px;height:100svh;background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
+#rec1192591996 .artboard{min-height:1140px;height:var(--pp-content-viewport-height, 100svh);background-color:#6232b9;overflow:visible}
+#rec1192591996 .art-tint{min-height:1140px;height:var(--pp-content-viewport-height, 100svh)}
+#rec1192591996 .art-background{min-height:1140px;height:var(--pp-content-viewport-height, 100svh);background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat}
 @media screen and (max-width:1199px){#rec1192591996 .artboard,#rec1192591996 .art-tint,#rec1192591996 .art-background{min-height:1210px}
 #rec1192591996 .art-background{background-attachment:scroll}
 }
