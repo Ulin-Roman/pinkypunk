@@ -9,16 +9,16 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Насадки на член «Секспедиции» — купить анонимно с доставкой</title>
   <link rel="icon" href="/pinkypunk/assets/media/tild3161-6266-4664-b433-633835393964/favicon-32x32.png">
-  <link rel="stylesheet" href="/pinkypunk/assets/styles/83909a5b1a352195.css">
-  <link rel="stylesheet" href="/pinkypunk/assets/styles/c64ace1270ee0067.css">
+  <link rel="stylesheet" href="/pinkypunk/assets/styles/d9c90b089ffc2778.css">
+  <link rel="stylesheet" href="/pinkypunk/assets/styles/3ea71f66023ced03.css">
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
   <script type="module" src="/pinkypunk/assets/site.js?v=cd73f9ed1879"></script>
-  <script type="module" src="/pinkypunk/assets/scenes.js?v=7388c71ffd9f"></script>
+  <script type="module" src="/pinkypunk/assets/scenes.js?v=d0376c383632"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=eaaf83525ac1"></script>
   <script type="module" src="/pinkypunk/assets/media.js?v=3cb33831f976"></script>
   <script type="module" src="/pinkypunk/assets/animation.js?v=68e3937cac8f"></script>
   <script type="module" src="/pinkypunk/assets/hero-scale.js?v=af35670ac770"></script>
-  <script type="module" src="/pinkypunk/assets/listings.js?v=56d7692186d7"></script>
+  <script type="module" src="/pinkypunk/assets/listings.js?v=b2c6f7749f1e"></script>
 </head>
 <body id="top" data-pp-media-path="/catalog/nasadki" data-pp-media-handoff data-pp-demo>
   <aside class="pp-preview-note">Демо · Дизайн и каталог</aside>
@@ -55,14 +55,14 @@
 
 <nav class="category-nav" aria-label="Категории каталога" data-catalog-scale=""><a href="/pinkypunk/catalog/">Все</a><a href="/pinkypunk/catalog/falloimitators/">Фаллоимитаторы</a><a href="/pinkypunk/catalog/masturbatori/">Мастурбаторы</a><a href="/pinkypunk/catalog/sex-kukli/">Секс-куклы</a><a href="/pinkypunk/catalog/lubrikanty/">Лубрики</a><a href="/pinkypunk/catalog/games/">Эротические игры</a><a href="/pinkypunk/catalog/probki/">Анальные пробки</a><a href="/pinkypunk/catalog/nasadki/" aria-current="page">Насадки</a><a href="/pinkypunk/catalog/neznakomci/">Незнакомцы</a></nav>
 
-<section class="catalog-results catalog-results-with-facets" aria-label="Товары" data-local-catalog>
+<section class="catalog-results catalog-results-with-facets" aria-label="Товары" data-local-catalog data-page-size="36">
   <form class="catalog-controls">
     <div class="catalog-toolbar" role="search">
       <div class="catalog-mobile-actions">
-        <button type="button" data-catalog-toggle aria-label="Фильтры" aria-expanded="false" aria-controls="catalog-facets">
+        <button type="button" data-catalog-toggle aria-label="Фильтры" aria-haspopup="dialog" aria-expanded="false" aria-controls="catalog-filters-dialog">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14M7 3v4m6 1v4m-6 1v4"/></svg>
         </button>
-        <button type="button" data-catalog-toggle aria-label="Сортировка" aria-expanded="false" aria-controls="catalog-sort">
+        <button type="button" data-catalog-toggle aria-label="Сортировка" aria-haspopup="dialog" aria-expanded="false" aria-controls="catalog-sort-dialog">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 3v14m-3-3 3 3 3-3M11 4h7m-7 5h5m-5 5h3"/></svg>
         </button>
         <button type="button" data-catalog-toggle aria-label="Поиск" aria-expanded="false" aria-controls="catalog-search"><svg viewBox="0 0 22 22" fill="none" aria-hidden="true">
@@ -73,11 +73,9 @@
       <label class="catalog-search" id="catalog-search"><span class="catalog-visually-hidden">Поиск по каталогу</span>
         <input type="search" name="q" placeholder="Поиск">
       </label>
+      <button type="button" class="catalog-search-close" data-catalog-search-close aria-label="Закрыть поиск">×</button>
       <label id="catalog-sort"><span class="catalog-visually-hidden">Сортировка</span> <select name="sort">
-        <option value="">По умолчанию</option>
-        <option value="price-asc">Сначала дешевле</option>
-        <option value="price-desc">Сначала дороже</option>
-        <option value="title-asc">По названию</option>
+        <option value="">По умолчанию</option><option value="price-asc">Цена: по возрастанию</option><option value="price-desc">Цена: по убыванию</option><option value="title-asc">Название: А—Я</option><option value="title-desc">Название: Я—А</option><option value="created-desc">Сперва новые</option><option value="created-asc">Сперва старые</option>
       </select></label>
     </div>
     <fieldset class="catalog-facets" id="catalog-facets">
@@ -87,11 +85,23 @@
         <label>Цена от <input type="number" name="min" min="0" inputmode="numeric" placeholder="От"></label>
         <label>Цена до <input type="number" name="max" min="0" inputmode="numeric" placeholder="До"></label>
       </div>
-      <button type="reset">Сбросить фильтры</button>
+      <label class="catalog-stock"><input type="checkbox" name="available" value="y"> В наличии</label>
+
+      <button type="reset">Сбросить все</button>
     </fieldset>
+    <dialog class="catalog-modal" id="catalog-filters-dialog" aria-labelledby="catalog-filters-dialog-title">
+      <header><h2 id="catalog-filters-dialog-title">Фильтры</h2><button type="button" data-catalog-close aria-label="Закрыть">×</button></header>
+      <div class="catalog-modal-content" data-catalog-modal-content></div>
+      <footer><button type="button" data-catalog-close>Показать товары</button><button type="reset">Сбросить все</button></footer>
+    </dialog>
+    <dialog class="catalog-modal" id="catalog-sort-dialog" aria-labelledby="catalog-sort-dialog-title">
+      <header><h2 id="catalog-sort-dialog-title">Сортировка</h2><button type="button" data-catalog-close aria-label="Закрыть">×</button></header>
+      <div class="catalog-modal-content" data-catalog-modal-content><button type="button" data-catalog-sort="" aria-pressed="false">По умолчанию</button><button type="button" data-catalog-sort="price-asc" aria-pressed="false">Цена: по возрастанию</button><button type="button" data-catalog-sort="price-desc" aria-pressed="false">Цена: по убыванию</button><button type="button" data-catalog-sort="title-asc" aria-pressed="false">Название: А—Я</button><button type="button" data-catalog-sort="title-desc" aria-pressed="false">Название: Я—А</button><button type="button" data-catalog-sort="created-desc" aria-pressed="false">Сперва новые</button><button type="button" data-catalog-sort="created-asc" aria-pressed="false">Сперва старые</button></div>
+
+    </dialog>
     <div class="catalog-items">
       <p class="catalog-visually-hidden" data-catalog-count aria-live="polite">Товаров: 2</p>
-      <div class="catalog-grid"><article class="product-tile" data-catalog-card data-price="1590" data-series="" data-text="&quot;Сам себе Шляпник&quot; Размер M-L Силиконовая насадка на член">
+      <div class="catalog-grid"><article class="product-tile" data-catalog-card data-price="1590" data-facets="{}" data-text="&quot;Сам себе Шляпник&quot; Размер M-L Силиконовая насадка на член" data-available="yes" data-created-rank="69">
   <a href="/pinkypunk/catalog/nasadki/sam-sebe-shlyapnik-m-l/">
     <div class="catalog-image"><img src="/pinkypunk/assets/imported/34510f786f03850e6a16.webp" data-protected-image="2dd6fc1b66ca74f84c2cb61857390f6a" alt="" loading="lazy" decoding="async"></div>
     <div class="catalog-card-text">
@@ -101,7 +111,7 @@
 
     </div>
   </a>
-</article> <article class="product-tile" data-catalog-card data-price="1490" data-series="" data-text="&quot;Сам себе Шляпник&quot; Размер S-M Силиконовая насадка на член">
+</article> <article class="product-tile" data-catalog-card data-price="1490" data-facets="{}" data-text="&quot;Сам себе Шляпник&quot; Размер S-M Силиконовая насадка на член" data-available="yes" data-created-rank="68">
   <a href="/pinkypunk/catalog/nasadki/sam-sebe-shlyapnik-s-m/">
     <div class="catalog-image"><img src="/pinkypunk/assets/imported/bc4dff1e5f81e50d9f36.webp" data-protected-image="c40dbc137aa19e3497c586a73326195d" alt="" loading="lazy" decoding="async"></div>
     <div class="catalog-card-text">
@@ -113,6 +123,7 @@
   </a>
 </article></div>
       <p data-catalog-empty hidden>По этому запросу ничего не найдено.</p>
+      <button type="button" class="catalog-load-more" data-catalog-more hidden>Загрузить ещё</button>
     </div>
   </form>
 </section>

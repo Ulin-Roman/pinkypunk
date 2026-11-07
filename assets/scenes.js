@@ -1,6 +1,6 @@
 const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
 function playVideo(video) {
-  if (video.hidden || video.closest('[hidden]')) return;
+  if (video.closest('[hidden], [inert]')) return;
   if (video.dataset.videoSource && !video.src) video.src = video.dataset.videoSource;
   if (video.hasAttribute('data-autoplay') && !motion.matches) video.play().catch(() => {});
 }
@@ -14,7 +14,7 @@ const videoObserver = new IntersectionObserver((entries) => {
 }, { rootMargin: '150px' });
 videos.forEach((video) => videoObserver.observe(video));
 
-for (const list of document.querySelectorAll('[role="tablist"]')) {
+for (const list of document.querySelectorAll('.art-group-body[role="tablist"]')) {
   const tabs = Array.from(list.querySelectorAll('[role="tab"]'));
 
   function select(active) {
@@ -47,54 +47,159 @@ for (const list of document.querySelectorAll('[role="tablist"]')) {
   });
 }
 
-for (const variants of document.querySelectorAll('[data-product-variants]')) {
+const variantMenus = document.querySelectorAll('[data-product-variants]');
+if (variantMenus.length) {
   document.addEventListener('click', (event) => {
-    if (!variants.contains(event.target)) variants.open = false;
+    for (const menu of variantMenus) {
+      if (menu.open && !menu.contains(event.target)) menu.open = false;
+    }
   });
-  variants.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape' || !variants.open) return;
-    variants.open = false;
-    variants.querySelector('summary').focus();
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    for (const menu of variantMenus) {
+      if (!menu.open) continue;
+      const restoreFocus = menu.contains(document.activeElement);
+      menu.open = false;
+      if (restoreFocus) menu.querySelector('summary').focus();
+    }
+  });
+}
+
+function onSwipe(element, move) {
+  let start;
+  element.addEventListener('touchstart', ({ touches }) => {
+    start = touches.length === 1 ? touches[0] : undefined;
+  }, { passive: true });
+  element.addEventListener('touchend', ({ changedTouches }) => {
+    const touch = changedTouches[0];
+    if (start && touch) {
+      const horizontal = touch.clientX - start.clientX;
+      const vertical = touch.clientY - start.clientY;
+      if (Math.abs(horizontal) > 45 && Math.abs(horizontal) > Math.abs(vertical)) move(horizontal < 0 ? 1 : -1);
+    }
+    start = undefined;
+  }, { passive: true });
+  element.addEventListener('touchcancel', () => {
+    start = undefined;
   });
 }
 
 const zoomDialog = document.createElement('dialog');
 zoomDialog.className = 'gallery-zoom';
 zoomDialog.setAttribute('aria-label', 'Фото товара');
-zoomDialog.innerHTML = '<form method="dialog"><button aria-label="Закрыть">×</button></form><img alt="">';
+zoomDialog.innerHTML = `
+  <div class="gallery-zoom-view"><img alt=""></div>
+  <button type="button" data-zoom-step="-1" aria-label="Предыдущее фото">‹</button>
+  <button type="button" data-zoom-step="1" aria-label="Следующее фото">›</button>
+  <form class="gallery-zoom-tools" method="dialog">
+    <button type="button" data-zoom-scale aria-label="Масштаб фото" aria-pressed="false" hidden>+</button>
+    <button type="submit" aria-label="Закрыть" autofocus>×</button>
+  </form>`;
 if (document.querySelector('[data-gallery-zoom]')) document.body.append(zoomDialog);
+const zoomView = zoomDialog.querySelector('.gallery-zoom-view');
+const zoomImage = zoomView.querySelector('img');
+const zoomScale = zoomDialog.querySelector('[data-zoom-scale]');
+const zoomSteps = zoomDialog.querySelectorAll('[data-zoom-step]');
+let zoomPhotos = [];
+let zoomIndex = 0;
+
+function setZoomScale(scaled) {
+  zoomDialog.classList.toggle('is-scaled', scaled);
+  zoomScale.setAttribute('aria-pressed', String(scaled));
+  zoomScale.textContent = scaled ? '−' : '+';
+  if (!scaled) zoomView.scrollTo(0, 0);
+}
+
+function updateScaleControl() {
+  const box = zoomImage.getBoundingClientRect();
+  zoomScale.hidden = zoomImage.naturalWidth <= box.width && zoomImage.naturalHeight <= box.height;
+}
+
+function showZoomPhoto(index) {
+  const picture = zoomPhotos[index];
+  zoomIndex = index;
+  setZoomScale(false);
+  zoomScale.hidden = true;
+  zoomImage.src = picture.currentSrc || picture.src;
+  zoomImage.alt = picture.alt;
+  if (zoomImage.complete) updateScaleControl();
+}
+
+function stepZoom(offset) {
+  if (zoomPhotos.length < 2) return;
+  showZoomPhoto((zoomIndex + offset + zoomPhotos.length) % zoomPhotos.length);
+}
+
+zoomImage.addEventListener('load', updateScaleControl);
+zoomScale.addEventListener('click', () => setZoomScale(!zoomDialog.classList.contains('is-scaled')));
+for (const button of zoomSteps) button.addEventListener('click', () => stepZoom(Number(button.dataset.zoomStep)));
 zoomDialog.addEventListener('click', (event) => {
-  if (event.target === zoomDialog) zoomDialog.close();
+  if (event.target === zoomView) zoomDialog.close();
 });
-zoomDialog.addEventListener('close', () => zoomDialog.querySelector('img').removeAttribute('src'));
+zoomDialog.addEventListener('close', () => {
+  zoomPhotos = [];
+  zoomImage.removeAttribute('src');
+});
+zoomDialog.addEventListener('keydown', (event) => {
+  if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+  event.preventDefault();
+  stepZoom(event.key === 'ArrowLeft' ? -1 : 1);
+});
+onSwipe(zoomView, (offset) => {
+  if (!zoomDialog.classList.contains('is-scaled')) stepZoom(offset);
+});
 
 for (const gallery of document.querySelectorAll('[data-gallery]')) {
-  const slides = Array.from(gallery.children).filter((child) => child.classList.contains('slide'));
+  const track = gallery.querySelector(':scope > .gallery-track') || gallery;
+  const slides = Array.from(track.children).filter((child) => child.classList.contains('slide'));
   const dots = gallery.querySelectorAll('[data-slide-index]');
   let index = 0;
-  function show(next) {
-    if (next === index) return;
-    slides[index].hidden = true;
-    slides[index].querySelector('video')?.pause();
+  let stopSlideMotion;
+  function show(next, direction = Math.sign(next - index)) {
+    if (next === index || !slides[next]) return;
+    stopSlideMotion?.();
+    const previous = slides[index];
+    const moveFocus = previous.contains(document.activeElement);
+    const animate = gallery.hasAttribute('data-slide-motion') && !motion.matches && typeof previous.animate === 'function';
+    if (!animate) previous.hidden = true;
+    previous.querySelector('video')?.pause();
     dots[index]?.removeAttribute('aria-current');
     index = next;
     slides[index].hidden = false;
     dots[index]?.setAttribute('aria-current', 'true');
     const video = slides[index].querySelector('[data-video-source]');
     if (video) playVideo(video);
+    if (moveFocus) {
+      const control = slides[index].querySelector('button, a[href], video:not([hidden])') || dots[index];
+      control?.focus({ preventScroll: true });
+    }
+    if (animate) {
+      previous.inert = true;
+      const timing = { duration: 300, easing: 'ease-in-out' };
+      const leave = previous.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${-direction * 100}%)` }], timing);
+      const enter = slides[index].animate([{ transform: `translateX(${direction * 100}%)` }, { transform: 'translateX(0)' }], timing);
+      stopSlideMotion = () => {
+        previous.hidden = true;
+        previous.inert = false;
+        leave.cancel();
+        enter.cancel();
+        stopSlideMotion = undefined;
+      };
+      leave.onfinish = stopSlideMotion;
+    }
   }
-  const step = (offset) => show((index + offset + slides.length) % slides.length);
+  const step = (offset) => show((index + offset + slides.length) % slides.length, offset);
   gallery.addEventListener('click', (event) => {
     const button = event.target.closest('[data-slide]');
     if (button) step(Number(button.dataset.slide));
     const dot = event.target.closest('[data-slide-index]');
     if (dot) show(Number(dot.dataset.slideIndex));
     const picture = event.target.closest('[data-gallery-zoom]')?.querySelector('img');
-    if (picture?.src) {
-      const expanded = zoomDialog.querySelector('img');
-      expanded.src = picture.currentSrc || picture.src;
-      expanded.alt = picture.alt;
+    if (picture?.getAttribute('src')) {
+      zoomPhotos = Array.from(gallery.querySelectorAll('[data-gallery-zoom] img[src]'));
+      for (const control of zoomSteps) control.hidden = zoomPhotos.length < 2;
       zoomDialog.showModal();
+      showZoomPhoto(zoomPhotos.indexOf(picture));
     }
   });
   gallery.addEventListener('keydown', (event) => {
@@ -103,21 +208,7 @@ for (const gallery of document.querySelectorAll('[data-gallery]')) {
     event.preventDefault();
     step(event.key === 'ArrowLeft' ? -1 : 1);
   });
-  let swipeStart;
-  gallery.addEventListener('touchstart', ({ touches }) => {
-    swipeStart = touches.length === 1 ? touches[0] : undefined;
-  }, { passive: true });
-  gallery.addEventListener('touchend', ({ changedTouches }) => {
-    const touch = changedTouches[0];
-    if (!swipeStart || !touch) return;
-    const horizontal = touch.clientX - swipeStart.clientX;
-    const vertical = touch.clientY - swipeStart.clientY;
-    if (Math.abs(horizontal) > 45 && Math.abs(horizontal) > Math.abs(vertical)) step(horizontal < 0 ? 1 : -1);
-    swipeStart = undefined;
-  }, { passive: true });
-  gallery.addEventListener('touchcancel', () => {
-    swipeStart = undefined;
-  });
+  onSwipe(gallery, step);
 }
 
 const popups = new Map(Array.from(document.querySelectorAll('[data-popup]'), (dialog) => [dialog.dataset.popup, dialog]));
