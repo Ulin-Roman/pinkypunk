@@ -111,6 +111,13 @@ img { display: block; max-width: 100%; }
 :where(body[data-pp-media-path^="/catalog/"] .artboard:has([role="tablist"])) .gallery-track {
   border-radius: calc(30px * var(--zoom, 1));
 }
+/* Product layout groups can overlap visually separate controls. Only their content should catch a click. */
+:where(body[data-pp-media-path^="/catalog/"] .artboard:has([role="tablist"])) :is(.art-group, .art-group-body) {
+  pointer-events: none;
+}
+:where(body[data-pp-media-path^="/catalog/"] .artboard:has([role="tablist"])) :is(.atom, a[href], button, input, select, textarea, summary, video) {
+  pointer-events: auto;
+}
 :where(body[data-pp-media-path^="/catalog/"] .artboard:has([role="tablist"])) .gallery:has(.gallery-dots) .slide { height: 100%; }
 :where(body[data-pp-media-path^="/catalog/"] .artboard:has([role="tablist"])) .gallery button[data-slide] {
   display: grid;
@@ -1207,6 +1214,7 @@ html:has(.pp-dialog[open]) {
 
 .pp-protected-panel strong { display: block; margin-bottom: 8px; font-size: 12px; }
 .pp-protected-panel button { width: 100%; }
+.pp-protected-panel[data-purchase-overlap] { visibility: hidden; }
 
 .pp-protected-panel a {
   display: block;
@@ -1502,15 +1510,14 @@ a.pp-cart-item-title:hover { text-decoration: underline; }
 }
 
 .editorial-faq .t-align_center { text-align: center; }
-.editorial-faq .t668__wrapper { margin-bottom: 5px; }
+.editorial-faq .t668__wrapper:not(:last-child) { margin-bottom: 5px; }
 
 .editorial-faq summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 20px 0;
-  font: 500 24px/1.35 var(--t-headline-font);
+  font: 600 24px/1.35 var(--t-headline-font);
   cursor: pointer;
   list-style: none;
 }
@@ -1519,13 +1526,15 @@ a.pp-cart-item-title:hover { text-decoration: underline; }
 .editorial-faq summary:focus-visible { outline: 2px solid var(--paper); outline-offset: -3px; }
 
 .editorial-faq .t668__header {
-  padding-inline: 28px;
+  padding: 25px 26px 25px 30px;
   border-radius: inherit;
   color: var(--paper);
 }
 
-.editorial-faq .t668__content { padding: 0 28px 26px; }
+.editorial-faq .t585__header { padding: 27px 8px 27px 0; }
+.editorial-faq .t668__content { padding: 0 30px 20px; }
 .editorial-faq .t585__content { padding-bottom: 20px; }
+.editorial-faq .t585__text { margin-bottom: 20px; }
 .editorial-faq :is(.t668__content, .t585__content) {
   font: 400 16px/1.55 var(--t-headline-font);
   overflow-wrap: anywhere;
@@ -1533,16 +1542,20 @@ a.pp-cart-item-title:hover { text-decoration: underline; }
 .editorial-faq :is(.t668__content, .t585__content) a { text-decoration: underline; }
 
 .editorial-faq-icon {
+  --faq-stroke: 2px;
   position: relative;
   flex: 0 0 24px;
   height: 24px;
 }
 
+.editorial-faq .t585__header .editorial-faq-icon { --faq-stroke: 1px; }
+#rec1270349631 .t585__header .editorial-faq-icon { --faq-stroke: 3px; }
+
 .editorial-faq-icon::before,
 .editorial-faq-icon::after {
   position: absolute;
-  inset: 50% 0 auto;
-  height: 2px;
+  inset: 50% 1px auto;
+  height: var(--faq-stroke);
   background: currentColor;
   content: '';
   transform: translateY(-50%);
@@ -1600,11 +1613,14 @@ a.pp-cart-item-title:hover { text-decoration: underline; }
   max-height: calc(100dvh - 40px);
   padding: 0;
   border-radius: var(--editorial-popup-radius, 0px);
+  overscroll-behavior: contain;
+  color-scheme: light;
   color: #000;
   background: #fff;
   font: 400 16px/1.55 var(--t-headline-font);
 }
 
+html:has(.editorial-popup[open]) { overflow: hidden; }
 .editorial-popup::backdrop { background: #0009; }
 .editorial-popup > button { z-index: 1; }
 
@@ -1752,6 +1768,12 @@ a.pp-cart-item-title:hover { text-decoration: underline; }
 }
 
 @media (max-width: 640px) {
+  .editorial-faq summary { font-size: 20px; }
+  .editorial-faq .t668__header { padding: 20px 16px 20px 20px; }
+  .editorial-faq .t668__content { padding-inline: 20px; }
+  .editorial-faq .t585__header { padding-block: 15px 14px; }
+  .editorial-faq .t585__content { padding-bottom: 10px; }
+  .editorial-faq .t585__text { margin-bottom: 15px; }
   .editorial-policy { font-size: 16px; line-height: 1.45; }
   .editorial-poll .editorial-survey-card { min-height: 427px; }
   .editorial-quiz-card { height: auto; min-height: 510px; }
@@ -1763,9 +1785,29 @@ a.pp-cart-item-title:hover { text-decoration: underline; }
 }
 
 @media (max-width: 560px) {
-  .editorial-faq summary { padding-block: 16px; font-size: 20px; }
-  .editorial-faq .t668__header, .editorial-faq .t668__content { padding-inline: 18px; }
-  .content-dialog.editorial-popup:not(.editorial-video-popup) { width: 100%; max-height: 100dvh; border-radius: 0; }
+  .content-dialog.editorial-popup:not(.editorial-video-popup) {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+  }
+  .editorial-popup:not(.editorial-video-popup) > button {
+    position: sticky;
+    top: 0;
+    display: block;
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    border-radius: 0;
+    background: #000;
+    color: #fff;
+    font: 28px/1 Arial, sans-serif;
+    text-align: right;
+  }
+  .editorial-popup:not(.editorial-video-popup) > button:focus-visible { outline-offset: -4px; }
   .editorial-popup-copy { padding: 24px 20px; }
   .editorial-popup .t766__title { font-size: 24px; }
   .editorial-survey-card { padding: 22px; }
@@ -1903,6 +1945,32 @@ a.pp-cart-item-title:hover { text-decoration: underline; }
 
 body[data-pp-media-path="/naduv"] .editorial-ticker .t1003 { display: flow-root; }
 body[data-pp-media-path="/naduv"] .editorial-ticker .t1003__outer { position: relative; }
+
+/* The slanted stripes overlap each other without pulling the product sections out of flow. */
+:where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker {
+  --ticker-slope: 2deg;
+  --ticker-gutter: calc(50vw * tan(var(--ticker-slope)));
+  --ticker-rotated-height: calc(var(--ticker-height) + 100vw * sin(var(--ticker-slope)));
+}
+:where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker:is(#rec2746546501, #rec2746607101, #rec2746608401, #rec2746610901) { --ticker-slope: 6deg; }
+:where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker:is(#rec2746546601, #rec2746607201, #rec2746608501, #rec2746611001) { --ticker-slope: 3deg; }
+:where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker :is(.t1003, .t1003__outer) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker .t1003__outer {
+  flex: 0 0 100%;
+  min-width: 0;
+  height: var(--ticker-rotated-height);
+  overflow: hidden;
+}
+:where(body[data-pp-media-path^="/catalog/probki/"]) .editorial-ticker-belt {
+  flex: none;
+  width: calc(100% + var(--ticker-gutter));
+  padding-inline: var(--ticker-gutter);
+}
 #rec2520270401 { padding-block: 1.75vw; }
 
 @media (max-width: 959px) {

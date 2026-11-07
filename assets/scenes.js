@@ -212,15 +212,44 @@ for (const gallery of document.querySelectorAll('[data-gallery]')) {
 }
 
 const popups = new Map(Array.from(document.querySelectorAll('[data-popup]'), (dialog) => [dialog.dataset.popup, dialog]));
-document.addEventListener('click', (event) => {
-  const link = event.target.closest('a[href^="#"]');
-  const dialog = link && popups.get(link.getAttribute('href').slice(1));
-  if (dialog) {
+for (const link of document.querySelectorAll('a[href^="#"]')) {
+  const dialog = popups.get(link.getAttribute('href').slice(1));
+  if (!dialog) continue;
+  link.setAttribute('aria-haspopup', 'dialog');
+  link.addEventListener('click', (event) => {
     event.preventDefault();
     dialog.showModal();
-  }
-  event.target.closest('[data-close-popup]')?.closest('dialog')?.close();
-});
+  });
+}
+for (const dialog of popups.values()) {
+  dialog.querySelector('[data-close-popup]').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('pointerdown', (event) => {
+    if (event.target !== dialog) return;
+    const { left, right, top, bottom } = dialog.getBoundingClientRect();
+    if (event.clientX < left || event.clientX > right || event.clientY < top || event.clientY > bottom) dialog.close();
+  });
+  dialog.addEventListener('close', () => {
+    if (dialog.open) return;
+    for (const video of dialog.querySelectorAll('video')) {
+      video.pause();
+      video.currentTime = 0;
+    }
+  });
+}
+
+for (const row of document.querySelectorAll('.editorial-faq details[name]')) {
+  row.querySelector('summary').addEventListener('click', () => {
+    if (row.open) return;
+    requestAnimationFrame(() => {
+      if (!row.open) return;
+      const { top, bottom } = row.getBoundingClientRect();
+      const headerOffset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      if (top < headerOffset || bottom > window.innerHeight) {
+        row.scrollIntoView({ block: 'start', behavior: motion.matches ? 'instant' : 'smooth' });
+      }
+    });
+  });
+}
 
 for (const form of document.querySelectorAll('[data-contact-form]')) {
   form.addEventListener('submit', (event) => {

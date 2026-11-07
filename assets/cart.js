@@ -135,7 +135,12 @@ if (cart) {
     empty.hidden = Boolean(count);
     total.textContent = rubles.format(amount / 100);
     if (summary) summary.hidden = !count;
-    if (checkout) checkout.hidden = preview || !count;
+    if (checkout) {
+      const route = items.size === 1 ? items.keys().next().value : '';
+      const product = /^\/catalog\/[a-z0-9-]+\/[a-z0-9-]+$/.test(route);
+      checkout.href = product ? new URL(`${route}/`, 'https://pinkypunk.ru').href : cart.dataset.cartUrl;
+      checkout.textContent = product ? 'Открыть товар в магазине' : 'Перейти в магазин';
+    }
     if (status) status.textContent = message;
 
     for (const counter of counters) {

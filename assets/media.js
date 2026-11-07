@@ -80,6 +80,52 @@ function protectedResources() {
   return [...resources.values()];
 }
 
+function keepPurchaseTargetsClear(panel) {
+  const controls = [...document.querySelectorAll('main [data-cart-add]')];
+  if (!controls.length) return;
+
+  const header = document.querySelector('.pp-header');
+  const cookie = document.querySelector('[data-pp-cookie]');
+  const gap = 8;
+  let frame = 0;
+  let offset = 0;
+
+  function update() {
+    frame = 0;
+    const { top, left, right, height } = panel.getBoundingClientRect();
+    const base = top - offset;
+    const min = (header?.getBoundingClientRect().bottom ?? 0) + gap;
+    const cookieTop = cookie && !cookie.hidden ? cookie.getBoundingClientRect().top : innerHeight;
+    const max = cookieTop - height - gap;
+    const targets = controls.map((control) => control.getBoundingClientRect()).filter((rect) =>
+      rect.width > 0 && rect.height > 0 && rect.left < right && rect.right > left &&
+      rect.bottom > min && rect.top < cookieTop);
+    const isClear = (y) => targets.every((rect) => y + height + gap <= rect.top || y >= rect.bottom + gap);
+    const candidates = targets.flatMap((rect) => [rect.top - height - gap, rect.bottom + gap]);
+    const position = isClear(base) ? base : candidates
+      .filter((y) => y >= min && y <= max && isClear(y))
+      .sort((a, b) => Math.abs(a - base) - Math.abs(b - base))[0];
+    panel.toggleAttribute('data-purchase-overlap', position === undefined);
+    const nextOffset = position === undefined ? 0 : position - base;
+    if (Math.abs(nextOffset - offset) > 0.1) {
+      offset = nextOffset;
+      panel.style.translate = offset ? `0 ${offset}px` : '';
+    }
+  }
+
+  function schedule() {
+    if (!frame) frame = requestAnimationFrame(update);
+  }
+
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule);
+  const observer = new ResizeObserver(schedule);
+  observer.observe(panel);
+  if (cookie) observer.observe(cookie);
+  for (const control of controls) observer.observe(control);
+  schedule();
+}
+
 function makePanel() {
   const panel = document.createElement('aside');
   panel.className = 'pp-protected-panel';
@@ -95,6 +141,7 @@ function makePanel() {
   fallback.hidden = true;
   panel.append(status, button, fallback);
   document.body.append(panel);
+  keepPurchaseTargetsClear(panel);
   return { status, button, fallback };
 }
 

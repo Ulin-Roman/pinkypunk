@@ -27,7 +27,7 @@ function russianStem(word) {
 }
 
 function searchWords(text) {
-  return (text.toLocaleLowerCase('ru').replaceAll('ё', 'е').match(/[\p{L}\p{N}]+/gu) || []).map(russianStem);
+  return text.toLocaleLowerCase('ru').replaceAll('ё', 'е').match(/[\p{L}\p{N}]+/gu) || [];
 }
 
 const catalog = document.querySelector('[data-local-catalog]');
@@ -54,17 +54,21 @@ if (catalog) {
   const more = catalog.querySelector('[data-catalog-more]');
   const grid = catalog.querySelector('.catalog-grid');
   const pageSize = Number(catalog.dataset.pageSize);
-  const collator = new Intl.Collator('ru', { numeric: true });
+  const collator = new Intl.Collator('ru');
   const legacyFilters = (params) => Array.from(params).filter(([key]) => key.startsWith('tfc_charact:'));
-  const cards = Array.from(grid.children, (node) => ({
-    node,
-    title: node.querySelector('h2').textContent,
-    words: new Set(searchWords(node.dataset.text)),
-    traits: JSON.parse(node.dataset.facets || '{}'),
-    price: Number(node.dataset.price),
-    available: node.dataset.available === 'yes',
-    rank: Number(node.dataset.createdRank || 'Infinity'),
-  }));
+  const cards = Array.from(grid.children, (node) => {
+    const title = node.querySelector('h2').textContent;
+    return {
+      node,
+      title,
+      titleWords: searchWords(title),
+      words: new Set(searchWords(node.dataset.text).map(russianStem)),
+      traits: JSON.parse(node.dataset.facets || '{}'),
+      price: Number(node.dataset.price),
+      available: node.dataset.available === 'yes',
+      rank: Number(node.dataset.createdRank || 'Infinity'),
+    };
+  });
   let orderedCards = cards;
   let limit = pageSize;
   let previousSort = '';
@@ -183,11 +187,14 @@ if (catalog) {
         [...params].some(([key, value]) => key.startsWith('tfc_quantity') && value === 'y');
     }
     const legacy = legacyFilters(params);
+    const legacySeparator = params.has('tfc_div') ? ':::' : '%2B';
     for (const group of facetGroups) {
       const values = params.getAll(group.name);
       if (!values.length) {
         for (const [key, value] of legacy) {
-          if (key === group.legacy || key.startsWith(`${group.legacy}[`)) values.push(value);
+          if (key === group.legacy || key.startsWith(`${group.legacy}[`)) {
+            values.push(...value.split(legacySeparator));
+          }
         }
       }
       for (const input of group.inputs) {
@@ -221,6 +228,8 @@ if (catalog) {
         orderedCards.sort((first, second) => direction * (first.rank - second.rank));
       } else if (sort.value) {
         const direction = sort.value === 'price-asc' ? 1 : -1;
+        // The source reverses the order of equal prices in descending mode.
+        if (direction < 0) orderedCards.reverse();
         orderedCards.sort((first, second) => {
           const a = first.price;
           const b = second.price;
@@ -231,7 +240,7 @@ if (catalog) {
       grid.append(...orderedCards.map(({ node }) => node));
       previousSort = sort.value;
     }
-    const words = searchWords(search.value);
+    const words = searchWords(search.value).map((word) => ({ word, stem: russianStem(word) }));
     const lowerPrice = parsePrice(min?.value || '');
     const upperPrice = parsePrice(max?.value || '');
     const lowerActive = lowerPrice !== null && lowerPrice !== Number(priceRange?.dataset.min);
@@ -253,7 +262,8 @@ if (catalog) {
       const matchingTraits = selected.every(({ name, values }) => !values.length ||
         values.some((value) => card.traits[name]?.includes(value)));
       const matchingStock = !available?.checked || card.available;
-      const matchingText = words.every((word) => card.words.has(word));
+      const matchingText = words.every(({ word, stem }) => card.words.has(stem) ||
+        (word.length >= 3 && card.titleWords.some((titleWord) => titleWord.startsWith(word))));
       const matches = matchingPrice && matchingTraits && matchingStock && matchingText;
       if (matches && matched === focusIndex) firstNewCard = card.node;
       matched += Number(matches);
