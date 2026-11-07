@@ -196,20 +196,61 @@ dialog.pp-dialog.telegram-popup {
   #rec945109921 .art-element[data-elem-id="1679959577610"] { top: calc(50% - 20px); }
 }
 
-.atom.contact-form { display: grid; align-content: center; gap: .75rem; }
+.atom.contact-form { display: grid; align-content: center; gap: 20px; }
 .contact-form :is(input, textarea) {
   min-width: 0;
   width: 100%;
-  padding: .75em;
+  min-height: 50px;
+  padding: 12px 20px;
   border: 0;
   border-radius: 10px;
   background: #fffdf0;
-  color: var(--ink);
+  color: #000;
+  font: 400 20px/1.25 TildaSans, Arial, sans-serif;
 }
-.contact-form textarea { min-height: 5.5em; resize: vertical; }
-.contact-form button { border: 0; cursor: pointer; justify-self: center; }
-.contact-form small { color: var(--paper); }
+.contact-form textarea { resize: vertical; }
+.contact-form button {
+  width: 170px;
+  min-height: 60px;
+  border: 0;
+  background: transparent;
+  color: white;
+  font: 400 22px var(--t-text-font);
+  cursor: pointer;
+  justify-self: center;
+}
+.contact-form button:hover { background: white; color: #e6005f; }
+.contact-form small { margin-top: -8px; color: var(--paper); text-align: center; }
 .contact-form small a { text-decoration: underline; }
+.contact-form output:empty { display: none; }
+.product-shelf {
+  padding: var(--shelf-top, 0) 20px var(--shelf-bottom, 0);
+  background: var(--shelf-bg, var(--purple));
+}
+.product-shelf > h2 { margin: 0 auto 40px; text-align: center; font: 400 clamp(22px, 4vw, 42px)/1.2 BigSH, Arial, sans-serif; }
+.shelf-grid { display: grid; grid-template-columns: repeat(var(--shelf-columns, 4), minmax(0, 1fr)); gap: 40px; max-width: 1160px; margin: auto; }
+.shelf-grid article { display: flex; flex-direction: column; min-width: 0; background: var(--shelf-card, #e9e9e9); color: var(--ink); }
+.shelf-grid img { width: 100%; aspect-ratio: var(--shelf-ratio, 1 / 1.33); object-fit: cover; }
+.shelf-copy { display: flex; flex: 1; flex-direction: column; padding: 20px; }
+.shelf-copy h3 { margin: 0; font: 400 22px/1.2 BigSH, Arial, sans-serif; }
+.shelf-center .shelf-copy { text-align: center; }
+.shelf-description { margin: 10px 0; font-size: 15px; line-height: 1.3; }
+.shelf-price { display: block; margin: 10px 0; color: var(--shelf-price, #f2397d); }
+.shelf-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.shelf-center .shelf-actions { justify-content: center; }
+.shelf-actions :is(a, span) { display: inline-block; padding: 8px 12px; border-radius: var(--shelf-radius, 14px); background: var(--shelf-button, var(--ink)); color: #fff; }
+.product-unavailable, .shelf-actions [aria-disabled] { cursor: not-allowed; opacity: .45; }
+.product-price-old { margin-left: 8px; font-size: .85em; opacity: .6; }
+@media (max-width: 760px) {
+  .product-shelf {
+    padding-top: var(--shelf-mobile-top, var(--shelf-top, 0));
+    padding-bottom: var(--shelf-mobile-bottom, var(--shelf-bottom, 0));
+  }
+  .shelf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .shelf-scroll .shelf-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .shelf-scroll article { flex: 0 0 min(260px, 78vw); scroll-snap-align: start; }
+  .shelf-copy { padding: 12px; }
+}
 .product-brief { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.5rem; }
 .product-brief > .gallery { margin-block: 0; }
 .product-brief h2 { margin-top: 0; }

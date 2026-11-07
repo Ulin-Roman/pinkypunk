@@ -134,6 +134,10 @@ document.addEventListener('click', (event) => {
 for (const form of document.querySelectorAll('[data-contact-form]')) {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
+    if (document.body.hasAttribute('data-pp-demo')) {
+      form.querySelector('output').textContent = 'Тестовая версия. Данные не отправлены.';
+      return;
+    }
     const data = new FormData(form);
     const text = [data.get('name'), data.get('contact'), data.get('message')].filter(Boolean).join('\n');
     const telegram = new URL('https://t.me/sexpeditsiya_help');

@@ -1,0 +1,85 @@
+[data-cart-items] {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pp-cart-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: .55rem;
+  min-width: 0;
+  padding: .7rem 0;
+  border-top: 1px solid currentColor;
+}
+
+.pp-cart-thumbnail {
+  grid-column: 1;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: .4rem;
+  object-fit: cover;
+}
+
+.pp-cart-item-info {
+  display: grid;
+  grid-column: 2;
+  gap: .1rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.pp-cart-item-title { font-weight: 700; }
+a.pp-cart-item-title:hover { text-decoration: underline; }
+.pp-cart-unit-price { font-size: .875rem; }
+
+.pp-cart-quantity {
+  display: grid;
+  grid-column: 3;
+  grid-template-columns: repeat(3, minmax(1.65rem, auto));
+  align-items: center;
+  justify-items: center;
+  gap: .12rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pp-cart-item-total { grid-column: 4; text-align: right; white-space: nowrap; }
+.pp-cart-remove { grid-column: 5; }
+
+.pp-cart-row button {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.9rem;
+  min-height: 1.9rem;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: 1.2rem/1 sans-serif;
+  cursor: pointer;
+}
+
+.pp-cart-row button:hover:not(:disabled) {
+  background: var(--pp-dark);
+  color: var(--pp-yellow);
+}
+
+.pp-cart-row button:focus-visible { outline-color: currentColor; }
+.pp-cart-row button:disabled { opacity: .4; cursor: default; }
+
+@media (max-width: 540px) {
+  .pp-cart-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: .45rem;
+  }
+
+  .pp-cart-thumbnail { grid-row: 1; width: 2.75rem; height: 2.75rem; }
+  .pp-cart-item-info { grid-row: 1; }
+  .pp-cart-quantity { grid-column: 2; grid-row: 2; justify-self: start; }
+  .pp-cart-item-total { grid-column: 3; grid-row: 2; }
+  .pp-cart-remove { grid-column: 3; grid-row: 1; justify-self: end; }
+}
