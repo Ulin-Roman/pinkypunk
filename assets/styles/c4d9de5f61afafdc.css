@@ -63,10 +63,9 @@ body:has([data-local-catalog]) :is(.breadcrumbs, .category-nav, .catalog-results
 #main > .scene:first-child > .artboard[data-hero-scale] {
   --catalog-title-size: clamp(32px, 4.6vw, 72px);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(88px, auto);
   align-items: center;
-  gap: 16px 24px;
   height: auto;
   margin-inline: auto;
   padding-block: clamp(92px, 8vw, 140px) clamp(26px, 3vw, 48px);
@@ -85,9 +84,15 @@ body:has([data-local-catalog]) :is(.breadcrumbs, .category-nav, .catalog-results
   white-space: normal;
   overflow-wrap: anywhere;
 }
-#main > .scene:first-child > .artboard[data-hero-scale] > .pp-protected-panel {
-  grid-column: 2;
-  justify-self: end;
+body:has([data-local-catalog]) .pp-media-rail {
+  inset-block-start: clamp(92px, 8vw, 140px);
+  width: var(--pp-catalog-width);
+}
+@media (min-width: 641px) {
+  #main:has(> .pp-media-rail) > .scene:first-child > .artboard[data-hero-scale] {
+    grid-template-columns: minmax(0, 1fr) 242px;
+    column-gap: 24px;
+  }
 }
 .catalog-breadcrumbs > :first-child { padding-inline-start: 0; }
 body:has([data-local-catalog]) .category-nav {
@@ -486,13 +491,15 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
 }
 @media (max-width: 640px) {
   #main > .scene:first-child > .artboard[data-hero-scale] {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(calc(2.1 * var(--catalog-title-size)), auto) minmax(84px, auto);
+    grid-template-rows: minmax(calc(2.1 * var(--catalog-title-size)), auto);
     align-items: start;
   }
-  #main > .scene:first-child > .artboard[data-hero-scale] > .pp-protected-panel {
-    grid-column: 1;
-    grid-row: 2;
+  #main:has(> .pp-media-rail) > .scene:first-child > .artboard[data-hero-scale] {
+    grid-template-columns: minmax(0, 1fr) 44px;
+    column-gap: 12px;
+  }
+  #main:has(> .pp-media-rail) > .scene:first-child > .artboard[data-hero-scale] > .art-item > h1.atom {
+    font-size: clamp(26px, 7vw, var(--catalog-title-size));
   }
   .catalog-breadcrumbs { min-height: 44px; }
   .catalog-controls { gap: 20px; }

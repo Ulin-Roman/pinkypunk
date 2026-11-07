@@ -80,6 +80,50 @@ function protectedResources() {
   return [...resources.values()];
 }
 
+function positionPanel(main, rail, control) {
+  const header = document.querySelector('.pp-header');
+  const sections = [...main.children].filter((section) => section !== rail);
+  let frame = 0;
+
+  function update() {
+    frame = 0;
+    const { top } = rail.getBoundingClientRect();
+    const { left, right, height } = control.getBoundingClientRect();
+    const gap = control.hasAttribute('data-compact') ? 4 : 8;
+    const lowerBound = top + Math.max(innerHeight, 480);
+    const boxes = [];
+    for (const section of sections) {
+      const sectionBox = section.getBoundingClientRect();
+      if (sectionBox.bottom <= top || sectionBox.top >= lowerBound) continue;
+      for (const element of section.querySelectorAll('h1, h2, h3, .breadcrumbs-detail li, .gallery, a[href], button')) {
+        const box = element.getBoundingClientRect();
+        if (box.width && box.height && box.bottom > top && box.top < lowerBound &&
+            box.left < right + gap && box.right > left - gap) boxes.push(box);
+      }
+    }
+    boxes.sort((first, second) => first.top - second.top);
+
+    let position = Math.max(top, (header?.getBoundingClientRect().bottom ?? 0) + gap - scrollY);
+    for (const box of boxes) {
+      if (box.top >= position + height + gap) break;
+      position = Math.max(position, box.bottom + gap);
+    }
+    control.style.setProperty('--pp-media-offset', `${position - top}px`);
+  }
+
+  function schedule() {
+    if (!frame) frame = requestAnimationFrame(update);
+  }
+
+  const observer = new ResizeObserver(schedule);
+  observer.observe(main);
+  observer.observe(control);
+  if (header) observer.observe(header);
+  addEventListener('resize', schedule, { passive: true });
+  document.fonts.ready.then(schedule);
+  schedule();
+}
+
 function makePanel() {
   const panel = document.createElement('aside');
   panel.className = 'pp-protected-panel';
@@ -95,22 +139,36 @@ function makePanel() {
   fallback.hidden = true;
   panel.append(status, button, fallback);
   const main = document.getElementById('main');
-  const catalogHero = main.querySelector(':scope > .scene:first-child > .artboard[data-hero-scale]');
-  if (catalogHero) {
-    catalogHero.append(panel);
-  } else {
-    const rail = document.createElement('div');
-    rail.className = 'pp-media-rail';
-    const breadcrumbs = main.querySelector(':scope > .breadcrumbs-detail');
-    if (breadcrumbs) {
-      breadcrumbs.before(rail);
-      rail.append(breadcrumbs);
-    } else {
-      rail.classList.add('pp-media-intro');
-      main.prepend(rail);
-    }
-    rail.append(panel);
-  }
+  const breadcrumbs = main.querySelector(':scope > .breadcrumbs-detail');
+  const catalog = main.querySelector('[data-local-catalog]');
+  const control = document.createElement('details');
+  control.className = 'pp-media-control';
+  const toggle = document.createElement('summary');
+  toggle.setAttribute('aria-label', 'Доступ к фото и видео 18+');
+  toggle.textContent = '18+';
+  control.append(toggle, panel);
+  control.addEventListener('toggle', () => {
+    if (!control.open || !control.hasAttribute('data-compact')) return;
+    const { top, bottom } = control.getBoundingClientRect();
+    const height = panel.getBoundingClientRect().height + 8;
+    panel.toggleAttribute('data-above', bottom + height > innerHeight && top > height);
+  });
+  const compact = matchMedia(breadcrumbs || catalog
+    ? '(max-width: 640px)'
+    : '(max-height: 480px) and (max-width: 900px)');
+  const setCompact = () => {
+    control.toggleAttribute('data-compact', compact.matches);
+    control.open = !compact.matches;
+  };
+  compact.addEventListener('change', setCompact);
+  setCompact();
+  const rail = document.createElement('div');
+  rail.className = 'pp-media-rail';
+  rail.append(control);
+  const anchor = breadcrumbs || main.firstElementChild;
+  if (anchor) anchor.after(rail);
+  else main.append(rail);
+  if (!catalog) positionPanel(main, rail, control);
   return { status, button, fallback };
 }
 
