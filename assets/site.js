@@ -1,5 +1,18 @@
 const ageDialog = document.querySelector('#pp-age');
 const cookieNotice = document.querySelector('[data-pp-cookie]');
+const brandTrain = document.querySelector('.pp-brand-train img');
+
+if (brandTrain) {
+  const reveal = () => {
+    brandTrain.decode().then(() => {
+      brandTrain.parentElement.dataset.ready = '';
+    }, () => {
+      // Keep the embedded first frame if the animation cannot be decoded.
+    });
+  };
+  brandTrain.addEventListener('load', reveal);
+  if (brandTrain.complete) reveal();
+}
 
 function preference(key) {
   try {
