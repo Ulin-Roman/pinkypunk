@@ -61,12 +61,18 @@ body:has([data-local-catalog])::before {
   z-index: -1;
   inset: 0;
   background: url("/pinkypunk/assets/catalog-texture-00640536.webp") center / cover no-repeat;
+  background-image: image-set(url("/pinkypunk/assets/catalog-texture-88f3acc8.avif") type("image/avif"),
+    url("/pinkypunk/assets/catalog-texture-00640536.webp") type("image/webp"));
   pointer-events: none;
   content: "";
 }
 @media (max-aspect-ratio: 2/3) {
   /* Keep the full image height so cover uses the same scale on narrow screens. */
-  body:has([data-local-catalog])::before { background-image: url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp"); }
+  body:has([data-local-catalog])::before {
+    background-image: url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp");
+    background-image: image-set(url("/pinkypunk/assets/catalog-texture-portrait-229fc8b8.avif") type("image/avif"),
+      url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp") type("image/webp"));
+  }
 }
 @supports (-webkit-touch-callout: none) {
   body:has([data-local-catalog])::before { bottom: auto; height: calc(100vh + 120px); }
@@ -322,6 +328,7 @@ body:has([data-local-catalog]) .category-nav a {
   background: #50249f;
   box-shadow: 0 0 14px rgb(35 12 58 / 65%);
 }
+.catalog-cover { display: contents; }
 .catalog-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .catalog-image-missing { padding: 12px; color: #fff; text-align: center; }
 .catalog-mark {
@@ -695,7 +702,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
 
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=925d75b3b10a"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
   <script type="module" src="/pinkypunk/assets/animation.js?v=ef45644f39e2"></script>
@@ -742,6 +749,27 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
 <li><a href="https://telegram.me/sexpeditsiya_help" target="_blank" rel="noopener noreferrer">Спросить</a></li>
 <li><a href="/pinkypunk/policy/" aria-label="Политика конфиденциальности">Политика</a></li></ul></nav>
 </dialog>
+  <script data-age-gate>(() => {
+  const menu = document.getElementById('pp-menu');
+  const trigger = document.querySelector('[data-pp-menu-open]');
+  const smallScreen = matchMedia('(width < 900px)');
+  let confirmed = !document.currentScript.hasAttribute('data-age-gate');
+  try {
+    confirmed ||= Boolean(localStorage.getItem('pinkypunk.age-confirmed'));
+  } catch {
+    // The confirmation event also works without storage.
+  }
+  document.addEventListener('pp:age-confirmed', () => { confirmed = true; }, { once: true });
+  trigger.addEventListener('click', () => {
+    if (!smallScreen.matches || !confirmed || menu.open) return;
+    menu.showModal();
+    trigger.setAttribute('aria-expanded', 'true');
+  });
+  menu.addEventListener('close', () => trigger.setAttribute('aria-expanded', 'false'));
+  smallScreen.addEventListener('change', () => {
+    if (!smallScreen.matches && menu.open) menu.close();
+  });
+})();</script>
   <main id="main">
 <section class="scene" id="rec2396776611"><div class="artboard" data-screens="320,480,640,980,1200" data-hero-scale="{&quot;1200&quot;:203,&quot;980&quot;:183}"><div class="art-background"></div><div class="art-tint"></div>
 <div class="art-item art-element" data-elem-id="1780161714258000001" data-kind="text"><h1 class="atom">Анальные пробки</h1></div>
@@ -810,7 +838,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
       <p class="catalog-visually-hidden" data-catalog-count aria-live="polite">Товаров: 4</p>
       <div class="catalog-grid"><article class="product-tile" data-catalog-card data-price="2590" data-facets="{}" data-text="Надувная пробка на присоске «Прилипала» Проект «Надувалы» Надувная анальная пробка «Прилипала» изготовлена из эластичного, тактильно приятного силикона. В сдутом виде её рабочая длина составляет 11,5 см, общая — 14 см, диаметр вводимой части — 3,8 см, диаметр присоски основания — 6 см. Внутренняя камера постепенно наполняется воздухом, увеличивая размер игрушки до 18 см в длину и до 9 см в диаметре, при этом наружная силиконовая оболочка остаётся плотной.Шланг подсоединяется к пробке с помощью фирменного магнитного крепления СамоСтык без иглы. Добавляйте воздух постепенно, ориентируясь только на собственные ощущения. Максимально допустимое количество — 30 полных нажатий на грушу из полностью сдутого состояния, иначе п*здец. После надувания шланг можно отсоединить: клапан удержит воздух внутри. Сдуть пробку можно нажатием на клапан либо через подключённый шланг, открыв вентиль на груше.Важно: вводить и извлекать пробку можно только в полностью сдутом виде. Широкое основание всегда должно оставаться снаружи. Обязательно используйте достаточное количество лубриканта исключительно на водной основе. Секспедиция" data-available="yes" data-created-rank="12">
   <a href="/pinkypunk/catalog/probki/prilipala/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/34ea7e88f9f542444cea.webp" alt="" loading="lazy" decoding="async" fetchpriority="high"><img src="/pinkypunk/assets/imported/61a5db7eca910909c6c3.webp" class="product-photo-alternate" aria-hidden="true" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/c4ce1d2627cc3b91a099.avif"><img src="/pinkypunk/assets/imported/34ea7e88f9f542444cea.webp" alt="" loading="lazy" decoding="async" fetchpriority="high"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/331fe1bd2b18a32afb10.avif"><img src="/pinkypunk/assets/imported/61a5db7eca910909c6c3.webp" class="product-photo-alternate" aria-hidden="true" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>Надувная пробка на присоске «Прилипала»</h2>
       <p class="catalog-description">Проект «Надувалы»</p>
@@ -820,7 +848,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
   </a>
 </article> <article class="product-tile" data-catalog-card data-price="2390" data-facets="{}" data-text="Надувная пробка «Одиночка» с металлическим шариком Проект «Надувалы» Надувная анальная пробка «Одиночка» изготовлена из мягкого эластичного силикона. В сдутом виде её рабочая длина составляет 14 см, общая — 15 см, диаметр вводимой части — 3,5 см. Гибкая ножка длиной 8 см обеспечивает свободу движений и делает ношение пробки более комфортным. Внутри находится тяжёлый металлический шарик, который при движении ударяется о стенки и создаёт дополнительные ощутимые импульсы.Размер регулируется количеством воздуха: пробка постепенно увеличивается до 23 см в длину и до 11,5 см в диаметре. Шланг присоединяется с помощью фирменного магнитного крепления без иглы. После надувания его можно отсоединить — клапан удержит воздух внутри. Сдуть пробку можно нажатием на клапан либо через подключённый шланг, открыв вентиль на груше.Добавляйте воздух медленно, ориентируясь на ощущения. Максимально допустимое количество — 45 полных нажатий на грушу из полностью сдутого состояния, иначе п*здец. Вводить и извлекать пробку можно только полностью сдутой, при этом широкое основание должно оставаться снаружи. Обязательно используйте достаточное количество лубриканта исключительно на водной основе. Секспедиция" data-available="yes" data-created-rank="13">
   <a href="/pinkypunk/catalog/probki/odinochka/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/522d1c7a10c0afd1b1c6.webp" alt="" loading="lazy" decoding="async"><img src="/pinkypunk/assets/imported/61a5db7eca910909c6c3.webp" class="product-photo-alternate" aria-hidden="true" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/fbee44ec12b74d74171e.avif"><img src="/pinkypunk/assets/imported/522d1c7a10c0afd1b1c6.webp" alt="" loading="lazy" decoding="async"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/331fe1bd2b18a32afb10.avif"><img src="/pinkypunk/assets/imported/61a5db7eca910909c6c3.webp" class="product-photo-alternate" aria-hidden="true" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>Надувная пробка «Одиночка» с металлическим шариком</h2>
       <p class="catalog-description">Проект «Надувалы»</p>
@@ -830,7 +858,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
   </a>
 </article> <article class="product-tile" data-catalog-card data-price="2990" data-facets="{}" data-text="Надувная пробка «Большая Шишка» в форме члена Проект «Надувалы» Надувная анальная пробка «Большая шишка» — крупная модель из мягкого эластичного силикона с выраженным рельефом. В сдутом виде её рабочая длина составляет 15 см, общая — 18 см, диаметр вводимой части — 5,9 см. Широкий ограничитель длиной 14 см остаётся снаружи и помогает надёжно удерживать игрушку. Благодаря крупному начальному диаметру модель больше подходит пользователям, уже знакомым с объёмными игрушками.Размер регулируется количеством воздуха: пробка постепенно увеличивается до 21 см в длину и до 12 см в диаметре. Толстая равномерная силиконовая оболочка придаёт конструкции дополнительную прочность. Шланг присоединяется с помощью фирменного магнитного крепления без иглы, а после его отсоединения клапан сохраняет воздух внутри.Добавляйте воздух медленно, ориентируясь на ощущения. Максимум — 55 полных нажатий на грушу из полностью сдутого состояния, иначе п*здец. Сдуть пробку можно нажатием на клапан либо через подключённый шланг, открыв вентиль на груше. Вводить и извлекать игрушку можно только после полного сдувания. Обязательно используйте большое количество лубриканта исключительно на водной основе. Секспедиция" data-available="" data-created-rank="11">
   <a href="/pinkypunk/catalog/probki/bolshaya-shishka/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/7a7e0990369191734349.webp" alt="" loading="lazy" decoding="async"><img src="/pinkypunk/assets/imported/61a5db7eca910909c6c3.webp" class="product-photo-alternate" aria-hidden="true" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/a567413c016a67b156bc.avif"><img src="/pinkypunk/assets/imported/7a7e0990369191734349.webp" alt="" loading="lazy" decoding="async"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/331fe1bd2b18a32afb10.avif"><img src="/pinkypunk/assets/imported/61a5db7eca910909c6c3.webp" class="product-photo-alternate" aria-hidden="true" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>Надувная пробка «Большая Шишка» в форме члена</h2>
       <p class="catalog-description">Проект «Надувалы»</p>
@@ -840,7 +868,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
   </a>
 </article> <article class="product-tile" data-catalog-card data-price="2590" data-facets="{}" data-text="Надувная пробка «Двойняшки» с двумя металлическими шариками Проект «Надувалы» Надувная анальная пробка «Двойняшки» изготовлена из мягкого эластичного силикона и состоит из двух последовательно расположенных камер. В сдутом виде рабочая длина игрушки составляет 16 см, общая — 17 см, длина гибкой ножки — 6 см, диаметр каждого шарика — 3,5 см. Длинная подвижная ножка обеспечивает свободу движений, а широкое основание помогает безопасно удерживать пробку снаружи.В каждой надувной камере находится тяжёлый металлический шарик: во время движения шарики ударяются о стенки и создают дополнительные глубокие импульсы. При постепенном наполнении воздухом пробка увеличивается до 28 см в длину и до 9,5 см в диаметре. Шланг присоединяется магнитным креплением без иглы. После его отсоединения клапан сохраняет выбранный объём.Добавляйте воздух медленно, ориентируясь на ощущения. Максимум — 50 полных нажатий на грушу из полностью сдутого состояния, иначе п*здец. Сдуть пробку можно нажатием на клапан либо через подключённый шланг, открыв вентиль на груше. Вводить и извлекать игрушку можно только полностью сдутой. Обязательно используйте достаточное количество лубриканта исключительно на водной основе. Секспедиция" data-available="yes" data-created-rank="14">
   <a href="/pinkypunk/catalog/probki/dvoynyashki/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/09ecbd22666d4bf94bce.webp" alt="" loading="lazy" decoding="async"><img src="/pinkypunk/assets/imported/b6e63576344ea390931d.webp" class="product-photo-alternate" aria-hidden="true" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/cda51959a05e4cf33daf.avif"><img src="/pinkypunk/assets/imported/09ecbd22666d4bf94bce.webp" alt="" loading="lazy" decoding="async"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/891a84637d1e0d1b3002.avif"><img src="/pinkypunk/assets/imported/b6e63576344ea390931d.webp" class="product-photo-alternate" aria-hidden="true" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>Надувная пробка «Двойняшки» с двумя металлическими шариками</h2>
       <p class="catalog-description">Проект «Надувалы»</p>

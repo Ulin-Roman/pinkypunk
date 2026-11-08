@@ -61,12 +61,18 @@ body:has([data-local-catalog])::before {
   z-index: -1;
   inset: 0;
   background: url("/pinkypunk/assets/catalog-texture-00640536.webp") center / cover no-repeat;
+  background-image: image-set(url("/pinkypunk/assets/catalog-texture-88f3acc8.avif") type("image/avif"),
+    url("/pinkypunk/assets/catalog-texture-00640536.webp") type("image/webp"));
   pointer-events: none;
   content: "";
 }
 @media (max-aspect-ratio: 2/3) {
   /* Keep the full image height so cover uses the same scale on narrow screens. */
-  body:has([data-local-catalog])::before { background-image: url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp"); }
+  body:has([data-local-catalog])::before {
+    background-image: url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp");
+    background-image: image-set(url("/pinkypunk/assets/catalog-texture-portrait-229fc8b8.avif") type("image/avif"),
+      url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp") type("image/webp"));
+  }
 }
 @supports (-webkit-touch-callout: none) {
   body:has([data-local-catalog])::before { bottom: auto; height: calc(100vh + 120px); }
@@ -322,6 +328,7 @@ body:has([data-local-catalog]) .category-nav a {
   background: #50249f;
   box-shadow: 0 0 14px rgb(35 12 58 / 65%);
 }
+.catalog-cover { display: contents; }
 .catalog-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .catalog-image-missing { padding: 12px; color: #fff; text-align: center; }
 .catalog-mark {
@@ -695,10 +702,10 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
 
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=925d75b3b10a"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
-  <script type="module" src="/pinkypunk/assets/media.js?v=7e3c45450374"></script>
+  <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
   <script type="module" src="/pinkypunk/assets/animation.js?v=ef45644f39e2"></script>
   <script type="module" src="/pinkypunk/assets/listings.js?v=da4bab13498e"></script>
 </head>
@@ -743,6 +750,27 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
 <li><a href="https://telegram.me/sexpeditsiya_help" target="_blank" rel="noopener noreferrer">Спросить</a></li>
 <li><a href="/pinkypunk/policy/" aria-label="Политика конфиденциальности">Политика</a></li></ul></nav>
 </dialog>
+  <script data-age-gate>(() => {
+  const menu = document.getElementById('pp-menu');
+  const trigger = document.querySelector('[data-pp-menu-open]');
+  const smallScreen = matchMedia('(width < 900px)');
+  let confirmed = !document.currentScript.hasAttribute('data-age-gate');
+  try {
+    confirmed ||= Boolean(localStorage.getItem('pinkypunk.age-confirmed'));
+  } catch {
+    // The confirmation event also works without storage.
+  }
+  document.addEventListener('pp:age-confirmed', () => { confirmed = true; }, { once: true });
+  trigger.addEventListener('click', () => {
+    if (!smallScreen.matches || !confirmed || menu.open) return;
+    menu.showModal();
+    trigger.setAttribute('aria-expanded', 'true');
+  });
+  menu.addEventListener('close', () => trigger.setAttribute('aria-expanded', 'false'));
+  smallScreen.addEventListener('change', () => {
+    if (!smallScreen.matches && menu.open) menu.close();
+  });
+})();</script>
   <main id="main">
 <section class="scene" id="rec2396747541"><div class="artboard" data-screens="320,480,640,980,1200" data-hero-scale="{&quot;1200&quot;:203,&quot;980&quot;:183}"><div class="art-background"></div><div class="art-tint"></div>
 <div class="art-item art-element" data-elem-id="1780161714258000001" data-kind="text"><h1 class="atom">Секс-куклы</h1></div>
@@ -811,7 +839,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
       <p class="catalog-visually-hidden" data-catalog-count aria-live="polite">Товаров: 4</p>
       <div class="catalog-grid"><article class="product-tile" data-catalog-card data-price="59900" data-facets="{}" data-text="Секс-кукла «Футанари» с членом, вагиной и анусом Фута.. кто? Футанари — секс-кукла для тех, кому сложно выбрать между женской и мужской анатомией. Здесь выбирать и не придётся: реалистичная грудь, детализированное тело и внушительный фаллос собраны в одном образе, созданном для необычных фантазий, сольных экспериментов и игр в паре.В основе тела расположен металлический каркас: кукле можно придавать разные положения, а формы остаются выразительными и упругими. Реалистичная текстура кожи и тщательно проработанные детали усиливают ощущения и делают игры ещё ярче. Длина фаллоса — 18 см, диаметр — 4,5 см.Футанари весит 19 кг, поэтому ощущается массивно и устойчиво. Обхват груди — 75 см, талии — 43 см, бёдер — 90 см. Для сохранения матовости и приятной текстуры кожи рекомендуем регулярно использовать пудру или присыпку. Секспедиция" data-available="yes" data-created-rank="1">
   <a href="/pinkypunk/catalog/sex-kukli/futunari/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/f32ad7bbc4bbb630a2c8.webp" data-protected-image="b23d134f20c699baa33e8b50a4681bdf" alt="" loading="lazy" decoding="async" fetchpriority="high"><img src="/pinkypunk/assets/imported/72a23c16286cc453dc1c.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="5188021f3d125b5ec407916cd147d968" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/b3214597bff73cc643eb.avif"><img src="/pinkypunk/assets/imported/f32ad7bbc4bbb630a2c8.webp" data-protected-image="b23d134f20c699baa33e8b50a4681bdf" alt="" loading="lazy" decoding="async" fetchpriority="high"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/a843a77771dca6140a91.avif"><img src="/pinkypunk/assets/imported/72a23c16286cc453dc1c.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="5188021f3d125b5ec407916cd147d968" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>Секс-кукла «Футанари» с членом, вагиной и анусом</h2>
       <p class="catalog-description">Фута.. кто?</p>
@@ -821,7 +849,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
   </a>
 </article> <article class="product-tile" data-catalog-card data-price="49000" data-facets="{}" data-text="Секс-кукла &quot;19кг радости&quot; 19кг - это как 30, но на 11 легче :) Уникальная секс-кукла &quot;19кг радости&quot; от Секспедиции. Эта кукла - идеальный выбор для тех, кто хочет испытать новые ощущения во время секса. Она изготовлена из высококачественного силикона, что обеспечивает ее долговечность и удобство использования. Кукла на ощупь как настоящая, мы постарались максимально передать текстуру кожи. Грудь 4 размера поражает своей реалистичностью. Выполнена по нашей технологии двухслойной заливки с гелевыми имплантами.Кукла 60 см в высоту и весит 19 кг.Эта секс-кукла - это настоящий подарок для себя или любимого человека. Она поможет вам раскрыть свои чувства и получить незабываемые ощущения. Секспедиция" data-available="yes" data-created-rank="52">
   <a href="/pinkypunk/catalog/sex-kukli/19kg-radosti/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/9dca9732afe97787df95.webp" data-protected-image="f06d2702454f6bc02b293f5e53bfa687" alt="" loading="lazy" decoding="async"><img src="/pinkypunk/assets/imported/33a09d00ec62bd1fde7b.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="41d743a9ea9f05c80712eb65e7220f0d" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/1406c57331bbabd40068.avif"><img src="/pinkypunk/assets/imported/9dca9732afe97787df95.webp" data-protected-image="f06d2702454f6bc02b293f5e53bfa687" alt="" loading="lazy" decoding="async"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/429a9a11b865f43312cb.avif"><img src="/pinkypunk/assets/imported/33a09d00ec62bd1fde7b.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="41d743a9ea9f05c80712eb65e7220f0d" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>Секс-кукла &quot;19кг радости&quot;</h2>
       <p class="catalog-description">19кг - это как 30, но на 11 легче :)</p>
@@ -831,7 +859,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
   </a>
 </article> <article class="product-tile" data-catalog-card data-price="75900" data-facets="{}" data-text="Секс-кукла &quot;30кг радости&quot; Даже и добавить нечего. Формат 1к1, премиальный силикон, импланты в попе и груди. Высшая степень блаженства. Секспедиция" data-available="yes" data-created-rank="65">
   <a href="/pinkypunk/catalog/sex-kukli/30kg-radosti/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/d58f670a6b8679f6065f.webp" data-protected-image="54e25a9a0aec6a248c51c45edd5dd268" alt="" loading="lazy" decoding="async"><img src="/pinkypunk/assets/imported/b16be674e8627d08cd53.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="48ce4c1c13fb43ba0a59939245c02686" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/35a681c5c633fd2f49c8.avif"><img src="/pinkypunk/assets/imported/d58f670a6b8679f6065f.webp" data-protected-image="54e25a9a0aec6a248c51c45edd5dd268" alt="" loading="lazy" decoding="async"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/31d6aba276f47155eb0b.avif"><img src="/pinkypunk/assets/imported/b16be674e8627d08cd53.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="48ce4c1c13fb43ba0a59939245c02686" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>Секс-кукла &quot;30кг радости&quot;</h2>
       <p class="catalog-description">Даже и добавить нечего.</p>
@@ -841,7 +869,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
   </a>
 </article> <article class="product-tile" data-catalog-card data-price="24900" data-facets="{}" data-text="Секс-кукла &quot;9кг радости&quot; 9кг - это как 19, но на 10 по-легче :) Новинка от Секспедиции. Уникальная, реалистичная секс-кукла премиального качества.Мечтаете о новых сексуальных ощущениях без обязательств? Хотите попробовать что-то новое в паре или в одиночестве? Реалистичная силиконовая секс-кукла мастурбатор станет вашим идеальным партнером для экспериментов и наслаждения.Модель имитирует тело молодой девушки: нежная грудь выполненная по нашей технологии двухслойного покрытия с гелевым иплантом внутри, тонкая талия, соблазнительные бедра, податливые ноги и мягкая кожа из премиального силикона. Упругая попка. Эргономичный дизайн, точная анатомическая детализация и натуральная текстура обеспечивают невероятно реалистичный опыт.Внутренние каналы вагины и анала разработаны для максимального комфорта и стимуляции, обеспечивая тесный контакт и насыщенные ощущения. А благодаря высокой теплопроводности материала, силиконовый торс молодой девушки быстро адаптируется к температуре тела.Силиконовая мадам подходит мужчинам, парам, тем, кто хочет попробовать секс втроём в безопасной форме, или тем, кто ищет способ улучшить технику и разнообразить интимную жизнь.Рекомендуем использовать лубрикант на водной основе для более комфортного взаимодействия. Секспедиция" data-available="yes" data-created-rank="34">
   <a href="/pinkypunk/catalog/sex-kukli/9kg-radosti/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/3efb1bfb55a93e9f382f.webp" data-protected-image="4c740bcac0f6c7f66b876b9ccd117e86" alt="" loading="lazy" decoding="async"><img src="/pinkypunk/assets/imported/9549d9c09ed948a98b18.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="5353e7a5500812612cf17964b6ba923e" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/82ad07de97aede3d98df.avif"><img src="/pinkypunk/assets/imported/3efb1bfb55a93e9f382f.webp" data-protected-image="4c740bcac0f6c7f66b876b9ccd117e86" alt="" loading="lazy" decoding="async"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/3f6a9760c102e3b7b549.avif"><img src="/pinkypunk/assets/imported/9549d9c09ed948a98b18.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="5353e7a5500812612cf17964b6ba923e" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>Секс-кукла &quot;9кг радости&quot;</h2>
       <p class="catalog-description">9кг - это как 19, но на 10 по-легче :)</p>

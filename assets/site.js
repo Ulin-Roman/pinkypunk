@@ -44,21 +44,6 @@ function showLinkedDialog() {
   showDialog(dialogFor(location.hash));
 }
 
-const mobileMenu = document.getElementById('pp-menu');
-const menuTrigger = document.querySelector('[data-pp-menu-open]');
-if (mobileMenu && menuTrigger) {
-  const smallScreen = matchMedia('(width < 900px)');
-  menuTrigger.addEventListener('click', () => {
-    if (!smallScreen.matches) return;
-    showDialog(mobileMenu);
-    if (mobileMenu.open) menuTrigger.setAttribute('aria-expanded', 'true');
-  });
-  mobileMenu.addEventListener('close', () => menuTrigger.setAttribute('aria-expanded', 'false'));
-  smallScreen.addEventListener('change', () => {
-    if (!smallScreen.matches && mobileMenu.open) mobileMenu.close();
-  });
-}
-
 const scrollTopButton = document.querySelector('[data-pp-scroll-top]');
 if (scrollTopButton) {
   let frame = 0;

@@ -829,10 +829,10 @@
 @media screen and (max-width:560px){#rec1084682391 .t-popup__close-icon g{fill:#ffffff !important;}}#rec1084682391 .t-slds__bullet_active .t-slds__bullet_body{background-color:#222 !important;}#rec1084682391 .t-slds__bullet:hover .t-slds__bullet_body{background-color:#222 !important;}#rec1084682391 .t-slds__bullet_body:focus-visible{background-color:#222 !important;}#rec1084682391 .t-btnflex.t-btnflex_type_button{color:#ffffff;background-color:#fb2e64;--border-width:0px;border-style:none !important;border-radius:30px;box-shadow:none !important;font-family:BigSH;font-weight:400;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform,gap;transition-timing-function:ease-in-out;}@media (hover:hover){#rec1084682391 .t-btnflex.t-btnflex_type_button:not(.t-animate_no-hover):hover{color:#ffffff !important;box-shadow:0px 2px 3px rgba(0,11,48,0.25) !important;background-color:#6232b9 !important;}#rec1084682391 .t-btnflex.t-btnflex_type_button:not(.t-animate_no-hover):focus-visible{color:#ffffff !important;box-shadow:0px 2px 3px rgba(0,11,48,0.25) !important;background-color:#6232b9 !important;}}#rec1084682391 .t-slds__bullet_active .t-slds__bullet_body{background-color:#222 !important;}#rec1084682391 .t-slds__bullet:hover .t-slds__bullet_body{background-color:#222 !important;}#rec1084682391 .t766__price{color:#ce0260;font-weight:600;}#rec1084682391 .t766__price_old{font-weight:600;}
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=925d75b3b10a"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
-  <script type="module" src="/pinkypunk/assets/media.js?v=7e3c45450374"></script>
+  <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
   <script type="module" src="/pinkypunk/assets/animation.js?v=ef45644f39e2"></script>
 </head>
 <body id="top" data-pp-media-path="/toys/acrobat" data-pp-media-handoff data-pp-demo>
@@ -876,6 +876,27 @@
 <li><a href="https://telegram.me/sexpeditsiya_help" target="_blank" rel="noopener noreferrer">Спросить</a></li>
 <li><a href="/pinkypunk/policy/" aria-label="Политика конфиденциальности">Политика</a></li></ul></nav>
 </dialog>
+  <script data-age-gate>(() => {
+  const menu = document.getElementById('pp-menu');
+  const trigger = document.querySelector('[data-pp-menu-open]');
+  const smallScreen = matchMedia('(width < 900px)');
+  let confirmed = !document.currentScript.hasAttribute('data-age-gate');
+  try {
+    confirmed ||= Boolean(localStorage.getItem('pinkypunk.age-confirmed'));
+  } catch {
+    // The confirmation event also works without storage.
+  }
+  document.addEventListener('pp:age-confirmed', () => { confirmed = true; }, { once: true });
+  trigger.addEventListener('click', () => {
+    if (!smallScreen.matches || !confirmed || menu.open) return;
+    menu.showModal();
+    trigger.setAttribute('aria-expanded', 'true');
+  });
+  menu.addEventListener('close', () => trigger.setAttribute('aria-expanded', 'false'));
+  smallScreen.addEventListener('change', () => {
+    if (!smallScreen.matches && menu.open) menu.close();
+  });
+})();</script>
   <main id="main">
 <section class="scene" id="rec1084682341"><div class="artboard" data-screens="320,480,640,960,1200" data-upscale=""><div class="art-background"></div><div class="art-tint"></div>
 <div class="art-item art-element" data-elem-id="1743953904333" data-kind="image"><div class="atom"> <img class="art-image" alt="" decoding="async" src="/pinkypunk/assets/imported/daf2a34806c16f1c8fad.webp" loading="lazy"> </div></div>

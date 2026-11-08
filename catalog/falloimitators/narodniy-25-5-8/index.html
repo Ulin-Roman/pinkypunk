@@ -1737,10 +1737,10 @@
 
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=925d75b3b10a"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
-  <script type="module" src="/pinkypunk/assets/media.js?v=7e3c45450374"></script>
+  <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
   <script type="module" src="/pinkypunk/assets/animation.js?v=ef45644f39e2"></script>
 </head>
 <body id="top" data-pp-media-path="/catalog/falloimitators/narodniy-25-5-8" data-pp-media-handoff data-pp-demo>
@@ -1784,9 +1784,30 @@
 <li><a href="https://telegram.me/sexpeditsiya_help" target="_blank" rel="noopener noreferrer">Спросить</a></li>
 <li><a href="/pinkypunk/policy/" aria-label="Политика конфиденциальности">Политика</a></li></ul></nav>
 </dialog>
+  <script data-age-gate>(() => {
+  const menu = document.getElementById('pp-menu');
+  const trigger = document.querySelector('[data-pp-menu-open]');
+  const smallScreen = matchMedia('(width < 900px)');
+  let confirmed = !document.currentScript.hasAttribute('data-age-gate');
+  try {
+    confirmed ||= Boolean(localStorage.getItem('pinkypunk.age-confirmed'));
+  } catch {
+    // The confirmation event also works without storage.
+  }
+  document.addEventListener('pp:age-confirmed', () => { confirmed = true; }, { once: true });
+  trigger.addEventListener('click', () => {
+    if (!smallScreen.matches || !confirmed || menu.open) return;
+    menu.showModal();
+    trigger.setAttribute('aria-expanded', 'true');
+  });
+  menu.addEventListener('close', () => trigger.setAttribute('aria-expanded', 'false'));
+  smallScreen.addEventListener('change', () => {
+    if (!smallScreen.matches && menu.open) menu.close();
+  });
+})();</script>
   <main id="main">
 <section class="scene" id="rec2359740131"><div class="artboard" data-screens="320,400,640,960,1200" data-upscale=""><div class="art-background"></div><div class="art-tint"></div>
-<div class="art-item art-element" data-elem-id="1779111509465" data-kind="image"><div class="atom"> <picture style="display:contents"><source media="(max-width: 479px)" srcset="/pinkypunk/assets/imported/af55d68c2171c675ab9c.webp"><img class="art-image" alt="" decoding="async" src="/pinkypunk/assets/imported/242483db1b825115be81.webp" loading="eager" fetchpriority="high"></picture> </div></div>
+<div class="art-item art-element" data-elem-id="1779111509465" data-kind="image"><div class="atom"> <picture style="display:contents"><source type="image/avif" media="(max-width: 479px)" srcset="/pinkypunk/assets/imported/1ba325d77b1873a703cb.avif"><source type="image/avif" srcset="/pinkypunk/assets/imported/d64e22d05b0a4b0b38be.avif"><source media="(max-width: 479px)" srcset="/pinkypunk/assets/imported/af55d68c2171c675ab9c.webp"><img class="art-image" alt="" decoding="async" src="/pinkypunk/assets/imported/242483db1b825115be81.webp" loading="eager" fetchpriority="high"></picture> </div></div>
 <div class="art-item art-element" data-elem-id="1779110761299" data-kind="image"><a class="atom" href="/pinkypunk/"> <img class="art-image" alt="" decoding="async" src="/pinkypunk/assets/imported/f8d3ef7cb3075bde9ab7.gif" loading="lazy"> </a></div>
 </div></section>
 

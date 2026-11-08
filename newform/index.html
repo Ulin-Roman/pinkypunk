@@ -763,10 +763,10 @@
 
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=925d75b3b10a"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
-  <script type="module" src="/pinkypunk/assets/media.js?v=7e3c45450374"></script>
+  <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
   <script type="module" src="/pinkypunk/assets/animation.js?v=ef45644f39e2"></script>
 </head>
 <body id="top" data-pp-media-path="/newform" data-pp-media-handoff data-pp-demo>
@@ -810,6 +810,27 @@
 <li><a href="https://telegram.me/sexpeditsiya_help" target="_blank" rel="noopener noreferrer">Спросить</a></li>
 <li><a href="/pinkypunk/policy/" aria-label="Политика конфиденциальности">Политика</a></li></ul></nav>
 </dialog>
+  <script data-age-gate>(() => {
+  const menu = document.getElementById('pp-menu');
+  const trigger = document.querySelector('[data-pp-menu-open]');
+  const smallScreen = matchMedia('(width < 900px)');
+  let confirmed = !document.currentScript.hasAttribute('data-age-gate');
+  try {
+    confirmed ||= Boolean(localStorage.getItem('pinkypunk.age-confirmed'));
+  } catch {
+    // The confirmation event also works without storage.
+  }
+  document.addEventListener('pp:age-confirmed', () => { confirmed = true; }, { once: true });
+  trigger.addEventListener('click', () => {
+    if (!smallScreen.matches || !confirmed || menu.open) return;
+    menu.showModal();
+    trigger.setAttribute('aria-expanded', 'true');
+  });
+  menu.addEventListener('close', () => trigger.setAttribute('aria-expanded', 'false'));
+  smallScreen.addEventListener('change', () => {
+    if (!smallScreen.matches && menu.open) menu.close();
+  });
+})();</script>
   <main id="main">
 <section class="scene" id="rec1291013011"><div class="artboard" data-screens="320,480,640,960,1200" data-upscale="" data-viewport=""><div class="art-background"></div><div class="art-tint"></div>
 <div class="art-item art-element" data-elem-id="1744135860798" data-kind="shape" data-window=""><div class="atom" style=";background-image:url(&quot;/pinkypunk/assets/hero/background-2eae5be7.webp&quot;);" aria-label="" role="img"> </div></div>

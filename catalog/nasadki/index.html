@@ -61,12 +61,18 @@ body:has([data-local-catalog])::before {
   z-index: -1;
   inset: 0;
   background: url("/pinkypunk/assets/catalog-texture-00640536.webp") center / cover no-repeat;
+  background-image: image-set(url("/pinkypunk/assets/catalog-texture-88f3acc8.avif") type("image/avif"),
+    url("/pinkypunk/assets/catalog-texture-00640536.webp") type("image/webp"));
   pointer-events: none;
   content: "";
 }
 @media (max-aspect-ratio: 2/3) {
   /* Keep the full image height so cover uses the same scale on narrow screens. */
-  body:has([data-local-catalog])::before { background-image: url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp"); }
+  body:has([data-local-catalog])::before {
+    background-image: url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp");
+    background-image: image-set(url("/pinkypunk/assets/catalog-texture-portrait-229fc8b8.avif") type("image/avif"),
+      url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp") type("image/webp"));
+  }
 }
 @supports (-webkit-touch-callout: none) {
   body:has([data-local-catalog])::before { bottom: auto; height: calc(100vh + 120px); }
@@ -322,6 +328,7 @@ body:has([data-local-catalog]) .category-nav a {
   background: #50249f;
   box-shadow: 0 0 14px rgb(35 12 58 / 65%);
 }
+.catalog-cover { display: contents; }
 .catalog-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .catalog-image-missing { padding: 12px; color: #fff; text-align: center; }
 .catalog-mark {
@@ -695,10 +702,10 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
 
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=925d75b3b10a"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
-  <script type="module" src="/pinkypunk/assets/media.js?v=7e3c45450374"></script>
+  <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
   <script type="module" src="/pinkypunk/assets/animation.js?v=ef45644f39e2"></script>
   <script type="module" src="/pinkypunk/assets/listings.js?v=da4bab13498e"></script>
 </head>
@@ -743,6 +750,27 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
 <li><a href="https://telegram.me/sexpeditsiya_help" target="_blank" rel="noopener noreferrer">Спросить</a></li>
 <li><a href="/pinkypunk/policy/" aria-label="Политика конфиденциальности">Политика</a></li></ul></nav>
 </dialog>
+  <script data-age-gate>(() => {
+  const menu = document.getElementById('pp-menu');
+  const trigger = document.querySelector('[data-pp-menu-open]');
+  const smallScreen = matchMedia('(width < 900px)');
+  let confirmed = !document.currentScript.hasAttribute('data-age-gate');
+  try {
+    confirmed ||= Boolean(localStorage.getItem('pinkypunk.age-confirmed'));
+  } catch {
+    // The confirmation event also works without storage.
+  }
+  document.addEventListener('pp:age-confirmed', () => { confirmed = true; }, { once: true });
+  trigger.addEventListener('click', () => {
+    if (!smallScreen.matches || !confirmed || menu.open) return;
+    menu.showModal();
+    trigger.setAttribute('aria-expanded', 'true');
+  });
+  menu.addEventListener('close', () => trigger.setAttribute('aria-expanded', 'false'));
+  smallScreen.addEventListener('change', () => {
+    if (!smallScreen.matches && menu.open) menu.close();
+  });
+})();</script>
   <main id="main">
 <section class="scene" id="rec2396780871"><div class="artboard" data-screens="320,480,640,980,1200" data-hero-scale="{&quot;1200&quot;:203,&quot;980&quot;:183}"><div class="art-background"></div><div class="art-tint"></div>
 <div class="art-item art-element" data-elem-id="1780161714258000001" data-kind="text"><h1 class="atom">Насадки</h1></div>
@@ -811,7 +839,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
       <p class="catalog-visually-hidden" data-catalog-count aria-live="polite">Товаров: 2</p>
       <div class="catalog-grid"><article class="product-tile" data-catalog-card data-price="1590" data-facets="{}" data-text="&quot;Сам себе Шляпник&quot; Размер M-L Силиконовая насадка на член Силиконовая насадка на член &quot;Сам себе Шляпник&quot; от Секспедиции: эта насадка повторяет форму нашего фирменного «Шляпника» и плотно облегает пенис, создавая реалистичные ощущения как для партнера, так и для вас. Увеличивает член до 5 см в длину и до 1 см в ширину. Материал тонкий, но прочный силикон, который сохраняет чувствительность и обеспечивает комфорт во время использования. Надевайте на сухой член, так изделие лучше фиксируется и не соскальзывает в процессе. Благодаря высокой эластичности подходит для разных размеров, легко принимает анатомическую форму.Эта насадка на член реалистичная, подходит не только для парной близости, но и для использования с игрушками: фаллоимитаторами, вибраторами и другими девайсами. Это идеальное решение для тех, кто хочет добавить новизны.Можно использовать как многоразовый презерватив, насадка легко моется и подходит для повторного использования Секспедиция" data-available="yes" data-created-rank="69">
   <a href="/pinkypunk/catalog/nasadki/sam-sebe-shlyapnik-m-l/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/34510f786f03850e6a16.webp" data-protected-image="2dd6fc1b66ca74f84c2cb61857390f6a" alt="" loading="lazy" decoding="async" fetchpriority="high"><img src="/pinkypunk/assets/imported/021106fb38538ee2ba04.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="1856141fb68f4fe17c211dd97c150d62" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/5f62a99a0659484bf379.avif"><img src="/pinkypunk/assets/imported/34510f786f03850e6a16.webp" data-protected-image="2dd6fc1b66ca74f84c2cb61857390f6a" alt="" loading="lazy" decoding="async" fetchpriority="high"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/8fadc94baa42066b9071.avif"><img src="/pinkypunk/assets/imported/021106fb38538ee2ba04.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="1856141fb68f4fe17c211dd97c150d62" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>&quot;Сам себе Шляпник&quot; Размер M-L</h2>
       <p class="catalog-description">Силиконовая насадка на член</p>
@@ -821,7 +849,7 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
   </a>
 </article> <article class="product-tile" data-catalog-card data-price="1490" data-facets="{}" data-text="&quot;Сам себе Шляпник&quot; Размер S-M Силиконовая насадка на член Силиконовая насадка на член &quot;Сам себе Шляпник&quot; от Секспедиции: эта насадка повторяет форму нашего фирменного «Шляпника» и плотно облегает пенис, создавая реалистичные ощущения как для партнера, так и для вас. Увеличивает член до 4 см в длину и до 1 см в ширину. Материал тонкий, но прочный силикон, который сохраняет чувствительность и обеспечивает комфорт во время использования. Надевайте на сухой член, так изделие лучше фиксируется и не соскальзывает в процессе. Благодаря высокой эластичности подходит для разных размеров, легко принимает анатомическую форму.Эта насадка на член реалистичная, подходит не только для парной близости, но и для использования с игрушками: фаллоимитаторами, вибраторами и другими девайсами. Это идеальное решение для тех, кто хочет добавить новизны.Можно использовать как многоразовый презерватив, насадка легко моется и подходит для повторного использования Секспедиция" data-available="yes" data-created-rank="68">
   <a href="/pinkypunk/catalog/nasadki/sam-sebe-shlyapnik-s-m/">
-    <div class="catalog-image"><img src="/pinkypunk/assets/imported/bc4dff1e5f81e50d9f36.webp" data-protected-image="c40dbc137aa19e3497c586a73326195d" alt="" loading="lazy" decoding="async"><img src="/pinkypunk/assets/imported/021106fb38538ee2ba04.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="1856141fb68f4fe17c211dd97c150d62" alt="" loading="lazy" decoding="async"></div>
+    <div class="catalog-image"><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/7beee7c5c070df5055c2.avif"><img src="/pinkypunk/assets/imported/bc4dff1e5f81e50d9f36.webp" data-protected-image="c40dbc137aa19e3497c586a73326195d" alt="" loading="lazy" decoding="async"></picture><picture class="catalog-cover"><source type="image/avif" srcset="/pinkypunk/assets/imported/8fadc94baa42066b9071.avif"><img src="/pinkypunk/assets/imported/021106fb38538ee2ba04.webp" class="product-photo-alternate" aria-hidden="true" data-protected-image="1856141fb68f4fe17c211dd97c150d62" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="catalog-card-text">
       <h2>&quot;Сам себе Шляпник&quot; Размер S-M</h2>
       <p class="catalog-description">Силиконовая насадка на член</p>

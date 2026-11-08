@@ -72,7 +72,8 @@ function protectedResources() {
     if (!id) return;
     const key = `${video ? 'video' : 'image'}:${id}`;
     if (!resources.has(key)) resources.set(key, { id, video, nodes: [], buttons: [] });
-    resources.get(key).nodes.push({ node, source: node.getAttribute('src'), controls: node.controls });
+    const cover = node.parentElement.closest('picture.catalog-cover')?.querySelector('source');
+    resources.get(key).nodes.push({ node, cover, source: node.getAttribute('src'), controls: node.controls });
   });
   document.querySelectorAll('[data-protected-play]').forEach((button) => {
     resources.get(`video:${button.dataset.protectedPlay}`)?.buttons.push(button);
@@ -198,7 +199,7 @@ function start(resources, incomingPass) {
 
   function restore(resource) {
     const expanded = document.querySelector('.gallery-zoom[open] img');
-    for (const { node, source, controls } of resource.nodes) {
+    for (const { node, cover, source, controls } of resource.nodes) {
       if (expanded?.src === node.src) expanded.closest('dialog').close();
       if (resource.video) {
         node.pause();
@@ -207,6 +208,7 @@ function start(resources, incomingPass) {
       }
       if (source === null) node.removeAttribute('src');
       else node.setAttribute('src', source);
+      cover?.removeAttribute('media');
       if (resource.video) node.load();
     }
     resource.buttons.forEach((control) => { control.closest('.protected-cover').hidden = false; });
@@ -264,12 +266,13 @@ function start(resources, incomingPass) {
   }
 
   function apply(resource, url) {
-    for (const { node } of resource.nodes) {
+    for (const { node, cover } of resource.nodes) {
       if (resource.video) {
         node.controls = true;
         node.hidden = false;
       }
       node.src = url;
+      cover?.setAttribute('media', 'not all');
     }
     resource.buttons.forEach((control) => { control.closest('.protected-cover').hidden = true; });
   }
