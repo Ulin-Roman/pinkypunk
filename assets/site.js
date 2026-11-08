@@ -171,25 +171,8 @@ if (telegramPopup) {
   }
 }
 
-if (ageDialog && !preference('pinkypunk.age-confirmed')) {
-  ageDialog.addEventListener('cancel', (event) => event.preventDefault());
-  ageDialog.querySelector('[data-pp-age-deny]')?.addEventListener('click', () => {
-    const denial = ageDialog.querySelector('#pp-age-denial');
-    ageDialog.querySelector('[data-pp-age-prompt]').hidden = true;
-    ageDialog.setAttribute('aria-labelledby', denial.id);
-    denial.hidden = false;
-    denial.focus();
-  });
-  ageDialog.querySelector('[data-pp-age-confirm]').addEventListener('click', () => {
-    remember('pinkypunk.age-confirmed');
-    ageDialog.close();
-    showLinkedDialog();
-    document.dispatchEvent(new Event('pp:age-confirmed'));
-  });
-  ageDialog.showModal();
-} else {
-  showLinkedDialog();
-}
+document.addEventListener('pp:age-confirmed', showLinkedDialog, { once: true });
+showLinkedDialog();
 
 if (cookieNotice && !preference('pinkypunk.cookie-notice')) {
   cookieNotice.hidden = false;

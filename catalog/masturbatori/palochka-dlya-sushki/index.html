@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Палочка для сушки мастурбаторов</title>
   <link rel="icon" href="/pinkypunk/assets/media/tild3161-6266-4664-b433-633835393964/favicon-32x32.png">
-  <link rel="stylesheet" href="/pinkypunk/assets/styles/9a56ca10bc23ea90.css">
+  <link rel="stylesheet" href="/pinkypunk/assets/styles/e493050bca298869.css">
   <style>
 #rec2404176801 .artboard{height:117px;background-color:#6232b9;overflow:visible}
 #rec2404176801 .art-tint{height:117px}
@@ -1600,7 +1600,7 @@
 
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=bc58b8d5ed1d"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=5b203273435c"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
   <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
@@ -1649,17 +1649,49 @@
 <li><a href="https://telegram.me/sexpeditsiya_help" target="_blank" rel="noopener noreferrer">Спросить</a></li>
 <li><a href="/pinkypunk/policy/" aria-label="Политика конфиденциальности">Политика</a></li></ul></nav>
 </dialog>
-  <script data-age-gate>(() => {
+<dialog class="pp-dialog pp-age-dialog" id="pp-age" aria-labelledby="pp-age-title">
+  <div data-pp-age-prompt>
+    <h2 id="pp-age-title" tabindex="-1" autofocus>Сайт для взрослых</h2>
+    <div class="pp-dialog-actions">
+      <button class="pp-button" type="button" data-pp-age-confirm>Да, мне есть 18</button>
+      <button class="pp-button pp-button-secondary" type="button" data-pp-age-deny>Нет, я моложе 18 лет</button>
+    </div>
+  </div>
+  <p class="pp-age-denial" id="pp-age-denial" tabindex="-1" hidden>Прости, но тебе пока нельзя на это смотреть</p>
+</dialog>
+  <script>(() => {
   const menu = document.getElementById('pp-menu');
   const trigger = document.querySelector('[data-pp-menu-open]');
   const smallScreen = matchMedia('(width < 900px)');
-  let confirmed = !document.currentScript.hasAttribute('data-age-gate');
+  const ageDialog = document.getElementById('pp-age');
+  const ageKey = 'pinkypunk.age-confirmed';
+  let confirmed = !ageDialog;
   try {
-    confirmed ||= Boolean(localStorage.getItem('pinkypunk.age-confirmed'));
+    confirmed ||= Boolean(localStorage.getItem(ageKey));
   } catch {
-    // The confirmation event also works without storage.
+    // The dialog still works without persistent storage.
   }
-  document.addEventListener('pp:age-confirmed', () => { confirmed = true; }, { once: true });
+  if (!confirmed) {
+    ageDialog.addEventListener('cancel', (event) => event.preventDefault());
+    ageDialog.querySelector('[data-pp-age-deny]').addEventListener('click', () => {
+      const denial = ageDialog.querySelector('#pp-age-denial');
+      ageDialog.querySelector('[data-pp-age-prompt]').hidden = true;
+      ageDialog.setAttribute('aria-labelledby', denial.id);
+      denial.hidden = false;
+      denial.focus();
+    });
+    ageDialog.querySelector('[data-pp-age-confirm]').addEventListener('click', () => {
+      confirmed = true;
+      try {
+        localStorage.setItem(ageKey, 'yes');
+      } catch {
+        // Keep the confirmation for the current page.
+      }
+      ageDialog.close();
+      document.dispatchEvent(new Event('pp:age-confirmed'));
+    });
+    ageDialog.showModal();
+  }
   trigger.addEventListener('click', () => {
     if (!smallScreen.matches || !confirmed || menu.open) return;
     menu.showModal();
@@ -1756,16 +1788,6 @@
   <p>Пользуясь сайтом, вы соглашаетесь с использованием cookies и <a href="/pinkypunk/policy/" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a>.</p>
   <button class="pp-button" type="button">OK</button>
 </div>
-<dialog class="pp-dialog pp-age-dialog" id="pp-age" aria-labelledby="pp-age-title">
-  <div data-pp-age-prompt>
-    <h2 id="pp-age-title" tabindex="-1" autofocus>Сайт для взрослых</h2>
-    <div class="pp-dialog-actions">
-      <button class="pp-button" type="button" data-pp-age-confirm>Да, мне есть 18</button>
-      <button class="pp-button pp-button-secondary" type="button" data-pp-age-deny>Нет, я моложе 18 лет</button>
-    </div>
-  </div>
-  <p class="pp-age-denial" id="pp-age-denial" tabindex="-1" hidden>Прости, но тебе пока нельзя на это смотреть</p>
-</dialog>
 <dialog class="pp-dialog pp-search-dialog" id="opensearch" aria-label="Поиск" data-pp-search-index="/pinkypunk/search-index.json">
   <div class="pp-search-header">
     <div class="pp-search-controls">
