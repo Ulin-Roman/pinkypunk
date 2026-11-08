@@ -1,6 +1,9 @@
 const breakpoints = [320, 480, 640, 960, 1200];
 const optionsAttribute = 'data-animate-sbs-opts';
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+const homePage = document.body.dataset.ppMediaPath === '/';
+const stationTextLead = 96;
+const stationTextDistance = 120;
 
 function number(value, fallback = 0) {
   if (value == null || value === '') return fallback;
@@ -65,13 +68,15 @@ for (const element of document.querySelectorAll('.art-item[data-animate-sbs-even
   const event = element.getAttribute('data-animate-sbs-event');
   const target = element.querySelector(':scope > .atom, :scope > .art-group-body');
   if (!target?.animate || (event !== 'scroll' && event !== 'intoview')) continue;
+  const stationText = homePage && event === 'scroll' && element.dataset.kind === 'text';
   tracks.push({
     element,
     target,
     scroll: event === 'scroll',
+    stationText,
     mobile: element.getAttribute('data-animate-mobile') === 'y',
     trigger: number(element.getAttribute('data-animate-sbs-trg'), 1),
-    offset: number(element.getAttribute('data-animate-sbs-trgofst')),
+    offset: number(element.getAttribute('data-animate-sbs-trgofst')) + (stationText ? stationTextLead : 0),
   });
 }
 
@@ -129,7 +134,9 @@ function configure() {
     if (breakpoint < 1200 && !track.mobile) continue;
     const steps = stepsFor(track.element, breakpoint);
     if (!steps) continue;
-    const { duration, keyframes } = timeline(steps, track.scroll, track.target);
+    const { duration: authoredDuration, keyframes } = timeline(steps, track.scroll, track.target);
+    // Keep the station artwork's motion, with readable text as it enters the viewport.
+    const duration = track.stationText ? Math.min(authoredDuration, stationTextDistance) : authoredDuration;
     const animation = track.target.animate(keyframes, { duration, fill: 'both' });
     animation.pause();
     animation.currentTime = 0;
