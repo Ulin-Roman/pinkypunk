@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Секс-куклы «Секспедиции» — купить анонимно с доставкой</title>
   <link rel="icon" href="/pinkypunk/assets/media/tild3161-6266-4664-b433-633835393964/favicon-32x32.png">
-  <link rel="stylesheet" href="/pinkypunk/assets/styles/8a7934b4c4550976.css">
+  <link rel="stylesheet" href="/pinkypunk/assets/styles/c30577a2d4858ae0.css">
   <style>
 #rec2396747541 .artboard{height:203px;overflow:visible}
 #rec2396747541 .art-tint{height:203px}
@@ -52,11 +52,11 @@
 @media screen and (max-width:479px){#rec2396747541 .art-element[data-elem-id="1780998326077000001"]{display:table;top:23px;left:25px;height:auto}
 }
 
-body:has([data-local-catalog]) {
+body[data-pp-catalog] {
   --pp-catalog-width: min(var(--pp-frame-width), 100% - 2 * var(--pp-page-gutter));
   isolation: isolate;
 }
-body:has([data-local-catalog])::before {
+body[data-pp-catalog]::before {
   position: fixed;
   z-index: -1;
   inset: 0;
@@ -68,17 +68,17 @@ body:has([data-local-catalog])::before {
 }
 @media (max-aspect-ratio: 2/3) {
   /* Keep the full image height so cover uses the same scale on narrow screens. */
-  body:has([data-local-catalog])::before {
+  body[data-pp-catalog]::before {
     background-image: url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp");
     background-image: image-set(url("/pinkypunk/assets/catalog-texture-portrait-229fc8b8.avif") type("image/avif"),
       url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp") type("image/webp"));
   }
 }
 @supports (-webkit-touch-callout: none) {
-  body:has([data-local-catalog])::before { bottom: auto; height: calc(100vh + 120px); }
+  body[data-pp-catalog]::before { bottom: auto; height: calc(100vh + 120px); }
 }
 
-body:has([data-local-catalog]) :is(.breadcrumbs, .category-nav, .catalog-results),
+body[data-pp-catalog] :is(.breadcrumbs, .category-nav, .catalog-results),
 #main > .scene:first-child > .artboard[data-hero-scale] {
   width: var(--pp-catalog-width);
 }
@@ -107,7 +107,7 @@ body:has([data-local-catalog]) :is(.breadcrumbs, .category-nav, .catalog-results
   white-space: normal;
   overflow-wrap: anywhere;
 }
-body:has([data-local-catalog]) .pp-media-rail {
+body[data-pp-catalog] .pp-media-rail {
   inset-block-start: clamp(92px, 8vw, 140px);
   width: var(--pp-catalog-width);
 }
@@ -118,11 +118,11 @@ body:has([data-local-catalog]) .pp-media-rail {
   }
 }
 .catalog-breadcrumbs > :first-child { padding-inline-start: 0; }
-body:has([data-local-catalog]) .category-nav {
+body[data-pp-catalog] .category-nav {
   justify-content: flex-start;
   font-size: clamp(14px, 1.2vw, 17px);
 }
-body:has([data-local-catalog]) .category-nav a {
+body[data-pp-catalog] .category-nav a {
   display: flex;
   align-items: center;
   min-height: 44px;
@@ -708,8 +708,10 @@ html:has(.catalog-modal[open]) { overflow: hidden; }
   <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
   <script type="module" src="/pinkypunk/assets/animation.js?v=ef45644f39e2"></script>
   <script type="module" src="/pinkypunk/assets/listings.js?v=da4bab13498e"></script>
+  <style>@font-face{font-family:"BigSH Storefront";font-weight:700;font-display:block;src:url("data:font/woff2;base64,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") format("woff2")}
+</style>
 </head>
-<body id="top" data-pp-media-path="/catalog/sex-kukli" data-pp-media-handoff data-pp-demo>
+<body id="top" data-pp-media-path="/catalog/sex-kukli" data-pp-media-handoff data-pp-demo data-pp-catalog>
   <a class="skip-link" href="#main">К содержанию</a>
 <header class="pp-header">
   <a class="pp-toolbar-logo" href="/pinkypunk/">
