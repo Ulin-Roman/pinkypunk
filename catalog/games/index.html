@@ -60,9 +60,13 @@ body:has([data-local-catalog])::before {
   position: fixed;
   z-index: -1;
   inset: 0;
-  background: url("/pinkypunk/assets/catalog-texture-f093014a.webp") center / cover no-repeat;
+  background: url("/pinkypunk/assets/catalog-texture-00640536.webp") center / cover no-repeat;
   pointer-events: none;
   content: "";
+}
+@media (max-aspect-ratio: 2/3) {
+  /* Keep the full image height so cover uses the same scale on narrow screens. */
+  body:has([data-local-catalog])::before { background-image: url("/pinkypunk/assets/catalog-texture-portrait-852abc65.webp"); }
 }
 @supports (-webkit-touch-callout: none) {
   body:has([data-local-catalog])::before { bottom: auto; height: calc(100vh + 120px); }
