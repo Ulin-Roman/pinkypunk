@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Силиконовая секс-кукла «19 кг радости»</title>
   <link rel="icon" href="/pinkypunk/assets/media/tild3161-6266-4664-b433-633835393964/favicon-32x32.png">
-  <link rel="stylesheet" href="/pinkypunk/assets/styles/400cc585049f44a2.css">
+  <link rel="stylesheet" href="/pinkypunk/assets/styles/9a56ca10bc23ea90.css">
   <style>
 #rec2363780361 .artboard{height:117px;background-color:#6232b9;overflow:visible}
 #rec2363780361 .art-tint{height:117px}
@@ -1733,7 +1733,7 @@
 
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=bc58b8d5ed1d"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
   <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
@@ -1802,6 +1802,26 @@
   smallScreen.addEventListener('change', () => {
     if (!smallScreen.matches && menu.open) menu.close();
   });
+
+  let pendingLink;
+  let pendingTimer;
+  function clearNavigationFeedback() {
+    pendingLink?.removeAttribute('data-pp-nav-pending');
+    pendingLink = undefined;
+    clearTimeout(pendingTimer);
+  }
+
+  document.addEventListener('click', (event) => {
+    if (!confirmed || event.defaultPrevented || event.button !== 0 ||
+        event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest?.('.pp-primary-nav a, #pp-menu nav a');
+    if (!link || link.target || link.origin !== location.origin || link.href === location.href) return;
+    clearNavigationFeedback();
+    pendingLink = link;
+    link.setAttribute('data-pp-nav-pending', '');
+    pendingTimer = setTimeout(clearNavigationFeedback, 5000);
+  });
+  addEventListener('pageshow', clearNavigationFeedback);
 })();</script>
   <main id="main">
 <section class="scene" id="rec2363780361"><div class="artboard" data-screens="320,400,640,960,1200" data-upscale=""><div class="art-background"></div><div class="art-tint"></div>

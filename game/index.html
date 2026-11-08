@@ -9,7 +9,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Настольные секс игры для пар 18+ — Секспедиция</title>
   <link rel="icon" href="/pinkypunk/assets/media/tild3161-6266-4664-b433-633835393964/favicon-32x32.png">
-  <link rel="stylesheet" href="/pinkypunk/assets/styles/400cc585049f44a2.css">
+  <link rel="preload" as="image" href="/pinkypunk/assets/imported/9d3a753b33b869393755.webp" fetchpriority="high" media="(min-width: 900px)">
+  <link rel="stylesheet" href="/pinkypunk/assets/styles/9a56ca10bc23ea90.css">
   <style>
 #rec945201511 .artboard{min-height:600px;height:var(--pp-content-viewport-height, 100svh);background-color:#6232b9;overflow:visible}
 #rec945201511 .art-tint{min-height:600px;height:var(--pp-content-viewport-height, 100svh)}
@@ -1288,7 +1289,7 @@
 @media screen and (max-width:560px){#rec945201561 .t-popup__close-icon g{fill:#ffffff !important;}}#rec945201561 .t-slds__bullet_active .t-slds__bullet_body{background-color:#222 !important;}#rec945201561 .t-slds__bullet:hover .t-slds__bullet_body{background-color:#222 !important;}#rec945201561 .t-slds__bullet_body:focus-visible{background-color:#222 !important;}#rec945201561 .t-btnflex.t-btnflex_type_button{color:#ffffff;background-color:#6232b9;--border-width:0px;border-style:none !important;border-radius:30px;box-shadow:none !important;font-family:BigSH;font-weight:400;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform,gap;transition-timing-function:ease-in-out;}@media (hover:hover){#rec945201561 .t-btnflex.t-btnflex_type_button:not(.t-animate_no-hover):hover{color:#000000 !important;box-shadow:0px 10px 20px rgba(0,11,48,0.25) !important;background-color:#ffdf00 !important;}#rec945201561 .t-btnflex.t-btnflex_type_button:not(.t-animate_no-hover):focus-visible{color:#000000 !important;box-shadow:0px 10px 20px rgba(0,11,48,0.25) !important;background-color:#ffdf00 !important;}}#rec945201561 .t-slds__bullet_active .t-slds__bullet_body{background-color:#222 !important;}#rec945201561 .t-slds__bullet:hover .t-slds__bullet_body{background-color:#222 !important;}#rec945201561 .t766__title{font-family:'Nunito';}#rec945201561 .t766__title_small{font-family:'Nunito';}#rec945201561 .t766__price{color:#8d0000;font-weight:400;}#rec945201561 .t766__price_old{font-weight:400;}#rec945201561 .t766__descr{font-family:'Nunito';}
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=bc58b8d5ed1d"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
   <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
@@ -1355,6 +1356,26 @@
   smallScreen.addEventListener('change', () => {
     if (!smallScreen.matches && menu.open) menu.close();
   });
+
+  let pendingLink;
+  let pendingTimer;
+  function clearNavigationFeedback() {
+    pendingLink?.removeAttribute('data-pp-nav-pending');
+    pendingLink = undefined;
+    clearTimeout(pendingTimer);
+  }
+
+  document.addEventListener('click', (event) => {
+    if (!confirmed || event.defaultPrevented || event.button !== 0 ||
+        event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest?.('.pp-primary-nav a, #pp-menu nav a');
+    if (!link || link.target || link.origin !== location.origin || link.href === location.href) return;
+    clearNavigationFeedback();
+    pendingLink = link;
+    link.setAttribute('data-pp-nav-pending', '');
+    pendingTimer = setTimeout(clearNavigationFeedback, 5000);
+  });
+  addEventListener('pageshow', clearNavigationFeedback);
 })();</script>
   <main id="main">
 <section class="scene" id="rec945201511"><div class="artboard" data-screens="320,480,640,960,1200" data-upscale="" data-viewport=""><div class="art-background"></div><div class="art-tint"></div>
@@ -1362,7 +1383,7 @@
 <div class="art-item art-element" data-elem-id="1744134651967" data-kind="shape" data-window=""><div class="atom" style=";background-image:url(&quot;/pinkypunk/assets/hero/background-2eae5be7.webp&quot;);" aria-label="" role="img"> </div></div>
 <div class="art-item art-element" data-elem-id="1744126565669" data-kind="image" data-window=""><div class="atom"> <img class="art-image" alt="" decoding="async" src="/pinkypunk/assets/imported/066320eb1dd14f2c70f0.webp" loading="lazy"> </div></div>
 <div class="art-item art-element" data-elem-id="1743792115079" data-kind="text" data-window=""><h1 class="atom">Эротические настольные игры для пар</h1></div>
-<div class="art-item art-element" data-elem-id="1744132948573" data-kind="image" data-window=""><div class="atom"> <img class="art-image" alt="" decoding="async" src="/pinkypunk/assets/imported/9d3a753b33b869393755.webp" loading="lazy"> </div></div>
+<div class="art-item art-element" data-elem-id="1744132948573" data-kind="image" data-window=""><div class="atom"> <img class="art-image" alt="" decoding="async" src="/pinkypunk/assets/imported/9d3a753b33b869393755.webp" loading="eager" fetchpriority="high"> </div></div>
 <div class="art-item art-element" data-elem-id="1679959577610" data-kind="text" data-window=""><div class="atom">трахленд</div></div>
 <div class="art-item art-element" data-elem-id="1744249557786" data-kind="image" data-window="" data-animate-mobile="y" data-animate-sbs-event="scroll" data-animate-sbs-trg="1" data-animate-sbs-trgofst="0" data-animate-sbs-opts="[{&quot;mx&quot;:0,&quot;my&quot;:0,&quot;sx&quot;:1,&quot;sy&quot;:1,&quot;op&quot;:1,&quot;ro&quot;:0,&quot;di&quot;:&quot;0&quot;,&quot;dd&quot;:&quot;0&quot;,&quot;fi&quot;:&quot;0&quot;},{&quot;mx&quot;:0,&quot;my&quot;:0,&quot;sx&quot;:1,&quot;sy&quot;:1,&quot;op&quot;:1,&quot;ro&quot;:0,&quot;di&quot;:150,&quot;dd&quot;:&quot;0&quot;,&quot;fi&quot;:&quot;0&quot;},{&quot;mx&quot;:0,&quot;my&quot;:0,&quot;sx&quot;:0.9,&quot;sy&quot;:0.9,&quot;op&quot;:0,&quot;ro&quot;:0,&quot;di&quot;:400,&quot;dd&quot;:&quot;0&quot;,&quot;fi&quot;:&quot;0&quot;}]"><div class="atom"> <img class="art-image" alt="" decoding="async" src="/pinkypunk/assets/media/tild3433-3162-4031-a431-653163316661/Imported_Image_3.gif" loading="lazy"> </div></div>
 </div></section>

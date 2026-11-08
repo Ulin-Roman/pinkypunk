@@ -1,6 +1,55 @@
 const ageDialog = document.querySelector('#pp-age');
 const cookieNotice = document.querySelector('[data-pp-cookie]');
 
+const desktopNavigation = matchMedia('(min-width: 900px) and (hover: hover) and (pointer: fine)');
+const connection = navigator.connection;
+if (desktopNavigation.matches && !connection?.saveData &&
+    !['slow-2g', '2g'].includes(connection?.effectiveType)) {
+  let timer;
+  let request;
+  let attempted = false;
+
+  function cancelWarmup() {
+    clearTimeout(timer);
+    request?.abort();
+    request = undefined;
+  }
+
+  for (const link of document.querySelectorAll('.pp-primary-nav a:not([target])')) {
+    if (link.origin !== location.origin || link.pathname === location.pathname) continue;
+    function scheduleWarmup() {
+      if (attempted || document.readyState !== 'complete' || !desktopNavigation.matches) return;
+      clearTimeout(timer);
+      timer = setTimeout(async () => {
+        if (attempted || document.hidden || !desktopNavigation.matches) return;
+        attempted = true;
+        const controller = new AbortController();
+        request = controller;
+        try {
+          // Read the whole response so a later native navigation can reuse it.
+          const response = await fetch(link.href, { priority: 'low', signal: controller.signal });
+          await response.arrayBuffer();
+        } catch {
+          // The browser still follows the original link.
+        } finally {
+          if (request === controller) request = undefined;
+        }
+      }, 100);
+    }
+    link.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') scheduleWarmup();
+    });
+    link.addEventListener('pointerleave', cancelWarmup);
+    link.addEventListener('focus', () => {
+      if (link.matches(':focus-visible')) scheduleWarmup();
+    });
+    link.addEventListener('blur', cancelWarmup);
+  }
+  document.addEventListener('pointerdown', cancelWarmup, { capture: true });
+  document.addEventListener('click', cancelWarmup, { capture: true });
+  addEventListener('pagehide', cancelWarmup);
+}
+
 for (const train of document.querySelectorAll('.pp-brand-train, [data-pp-hero-train]')) {
   const image = train.querySelector('img');
   const reveal = () => {

@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Мастурбатор «Мэри Сью» — реалистичная вагина и попа от Секспедиции</title>
   <link rel="icon" href="/pinkypunk/assets/media/tild3161-6266-4664-b433-633835393964/favicon-32x32.png">
-  <link rel="stylesheet" href="/pinkypunk/assets/styles/400cc585049f44a2.css">
+  <link rel="stylesheet" href="/pinkypunk/assets/styles/9a56ca10bc23ea90.css">
   <style>
 #rec945214246 .artboard{height:1270px;background-color:#ffffff}
 #rec945214246 .art-tint{height:1270px;background-image:-webkit-gradient( linear,left top,left bottom,from(rgba(91,44,173,0.7)),to(rgba(91,44,173,0.9)) );background-image:-webkit-linear-gradient(top,rgba(91,44,173,0.7),rgba(91,44,173,0.9));background-image:linear-gradient(to bottom,rgba(91,44,173,0.7),rgba(91,44,173,0.9));will-change:transform}
@@ -1481,7 +1481,7 @@
 @media screen and (max-width:560px){#rec828291963 .t-popup__close-icon g{fill:#ffffff !important;}}#rec828291963 .t-slds__bullet_active .t-slds__bullet_body{background-color:#222 !important;}#rec828291963 .t-slds__bullet:hover .t-slds__bullet_body{background-color:#222 !important;}#rec828291963 .t-slds__bullet_body:focus-visible{background-color:#222 !important;}#rec828291963 .t-btnflex.t-btnflex_type_button{color:#ffffff;background-color:#fb2e64;--border-width:0px;border-style:none !important;border-radius:30px;box-shadow:none !important;font-family:BigSH;font-weight:400;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform,gap;transition-timing-function:ease-in-out;}@media (hover:hover){#rec828291963 .t-btnflex.t-btnflex_type_button:not(.t-animate_no-hover):hover{box-shadow:0px 2px 3px rgba(0,11,48,0.25) !important;background-color:#6232b9 !important;}#rec828291963 .t-btnflex.t-btnflex_type_button:not(.t-animate_no-hover):focus-visible{box-shadow:0px 2px 3px rgba(0,11,48,0.25) !important;background-color:#6232b9 !important;}}#rec828291963 .t-slds__bullet_active .t-slds__bullet_body{background-color:#222 !important;}#rec828291963 .t-slds__bullet:hover .t-slds__bullet_body{background-color:#222 !important;}#rec828291963 .t766__price{color:#ce0260;font-weight:600;}#rec828291963 .t766__price_old{font-weight:600;}
   </style>
   <link rel="stylesheet" href="/pinkypunk/assets/styles/7eea2b44cc74f1e0.css">
-  <script type="module" src="/pinkypunk/assets/site.js?v=5fa4af44096e"></script>
+  <script type="module" src="/pinkypunk/assets/site.js?v=bc58b8d5ed1d"></script>
   <script type="module" src="/pinkypunk/assets/scenes.js?v=5ae6e4d0a6e6"></script>
   <script type="module" src="/pinkypunk/assets/cart.js?v=c331b75064ed"></script>
   <script type="module" src="/pinkypunk/assets/media.js?v=978e52907b3a"></script>
@@ -1548,6 +1548,26 @@
   smallScreen.addEventListener('change', () => {
     if (!smallScreen.matches && menu.open) menu.close();
   });
+
+  let pendingLink;
+  let pendingTimer;
+  function clearNavigationFeedback() {
+    pendingLink?.removeAttribute('data-pp-nav-pending');
+    pendingLink = undefined;
+    clearTimeout(pendingTimer);
+  }
+
+  document.addEventListener('click', (event) => {
+    if (!confirmed || event.defaultPrevented || event.button !== 0 ||
+        event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest?.('.pp-primary-nav a, #pp-menu nav a');
+    if (!link || link.target || link.origin !== location.origin || link.href === location.href) return;
+    clearNavigationFeedback();
+    pendingLink = link;
+    link.setAttribute('data-pp-nav-pending', '');
+    pendingTimer = setTimeout(clearNavigationFeedback, 5000);
+  });
+  addEventListener('pageshow', clearNavigationFeedback);
 })();</script>
   <main id="main">
 <section class="scene" id="rec945214246"><div class="artboard" data-screens="320,480,640,960,1200" data-upscale=""><div class="art-background" style=";background-image:url(&quot;/pinkypunk/assets/imported/65435bae04d064aabbc0.jpg&quot;);"></div><div class="art-tint"></div>
