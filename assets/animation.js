@@ -130,6 +130,7 @@ function configure() {
   active = [];
   if (reducedMotion) return;
 
+  const configurations = [];
   for (const track of tracks) {
     if (breakpoint < 1200 && !track.mobile) continue;
     const steps = stepsFor(track.element, breakpoint);
@@ -137,6 +138,11 @@ function configure() {
     // Use the visible reveal segment without the authored transparent wait.
     const reveal = track.stationText ? [{ ...steps.at(-2), di: 0 }, { ...steps.at(-1), dd: 0 }] : steps;
     const { duration, keyframes } = timeline(reveal, track.scroll, track.target);
+    configurations.push({ track, duration, keyframes });
+  }
+
+  // Read every base style before starting animations that invalidate those styles.
+  for (const { track, duration, keyframes } of configurations) {
     const animation = track.target.animate(keyframes, { duration, fill: 'both' });
     animation.pause();
     animation.currentTime = 0;

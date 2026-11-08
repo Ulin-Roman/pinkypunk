@@ -60,8 +60,6 @@ if (catalog) {
     return {
       node,
       title,
-      titleWords: searchWords(title),
-      words: new Set(searchWords(node.dataset.text).map(russianStem)),
       traits: JSON.parse(node.dataset.facets || '{}'),
       price: Number(node.dataset.price),
       available: node.dataset.available === 'yes',
@@ -209,6 +207,14 @@ if (catalog) {
     if (legacySeries && !search.value && !facetGroups.some(({ name }) => name === 'series')) search.value = legacySeries;
   }
 
+  function matchesText(card, words) {
+    if (!words.length) return true;
+    card.titleWords ??= searchWords(card.title);
+    card.words ??= new Set(searchWords(card.node.dataset.text).map(russianStem));
+    return words.every(({ word, stem }) => card.words.has(stem) ||
+      (word.length >= 3 && card.titleWords.some((titleWord) => titleWord.startsWith(word))));
+  }
+
   function filter(updateURL, focusIndex = -1) {
     syncPriceSlider();
     if (updateURL) limit = pageSize;
@@ -255,8 +261,7 @@ if (catalog) {
       const matchingTraits = selected.every(({ name, values }) => !values.length ||
         values.some((value) => card.traits[name]?.includes(value)));
       const matchingStock = !available?.checked || card.available;
-      const matchingText = words.every(({ word, stem }) => card.words.has(stem) ||
-        (word.length >= 3 && card.titleWords.some((titleWord) => titleWord.startsWith(word))));
+      const matchingText = matchesText(card, words);
       const matches = matchingPrice && matchingTraits && matchingStock && matchingText;
       if (matches && matched === focusIndex) firstNewCard = card.node;
       matched += Number(matches);
