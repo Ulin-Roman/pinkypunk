@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Надувная анальная пробка «Двойняшки»</title>
   <link rel="icon" href="/pinkypunk/assets/media/tild3161-6266-4664-b433-633835393964/favicon-32x32.png">
-  <link rel="stylesheet" href="/pinkypunk/assets/styles/e493050bca298869.css">
+  <link rel="stylesheet" href="/pinkypunk/assets/styles/941dc4800f73adda.css">
   <style>
 #rec2602516001 .artboard{height:117px;background-color:#6232b9;overflow:visible}
 #rec2602516001 .art-tint{height:117px}
@@ -2081,7 +2081,19 @@
       ageDialog.close();
       document.dispatchEvent(new Event('pp:age-confirmed'));
     });
+    const title = ageDialog.querySelector('#pp-age-title');
+    const reveal = () => {
+      ageDialog.removeAttribute('data-pp-age-loading');
+      if (ageDialog.open && !ageDialog.contains(document.activeElement)) {
+        title.focus({ preventScroll: true });
+      }
+    };
+    const font = document.fonts?.load('400 1em "BigSH Header"', title.textContent);
+    // Keep the page inert while the embedded heading face is being decoded.
+    ageDialog.setAttribute('data-pp-age-loading', '');
     ageDialog.showModal();
+    if (font) font.then(reveal, reveal);
+    else reveal();
   }
   trigger.addEventListener('click', () => {
     if (!smallScreen.matches || !confirmed || menu.open) return;
