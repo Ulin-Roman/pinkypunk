@@ -157,4 +157,5 @@ if (tracks.length) {
   window.addEventListener('load', scheduleUpdate, { once: true });
   motionPreference.addEventListener('change', configure);
   configure();
+  document.querySelector('[data-pp-hero-train]')?.setAttribute('data-motion-ready', '');
 }

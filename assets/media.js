@@ -140,13 +140,28 @@ function makePanel() {
   panel.append(status, button, fallback);
   const main = document.getElementById('main');
   const breadcrumbs = main.querySelector(':scope > .breadcrumbs-detail');
-  const catalog = main.querySelector('[data-local-catalog]');
   const control = document.createElement('details');
   control.className = 'pp-media-control';
   const toggle = document.createElement('summary');
   toggle.setAttribute('aria-label', 'Доступ к фото и видео 18+');
   toggle.textContent = '18+';
   control.append(toggle, panel);
+  const rail = document.createElement('div');
+  rail.className = 'pp-media-rail';
+  rail.append(control);
+  const anchor = breadcrumbs || main.firstElementChild;
+  if (anchor) anchor.after(rail);
+  else main.append(rail);
+  setupPanel(rail);
+  return { status, button, fallback };
+}
+
+function setupPanel(rail) {
+  const main = rail.parentElement;
+  const control = rail.firstElementChild;
+  const panel = control.querySelector('.pp-protected-panel');
+  const breadcrumbs = main.querySelector(':scope > .breadcrumbs-detail');
+  const catalog = main.querySelector('[data-local-catalog]');
   control.addEventListener('toggle', () => {
     if (!control.open || !control.hasAttribute('data-compact')) return;
     const { top, bottom } = control.getBoundingClientRect();
@@ -162,14 +177,7 @@ function makePanel() {
   };
   compact.addEventListener('change', setCompact);
   setCompact();
-  const rail = document.createElement('div');
-  rail.className = 'pp-media-rail';
-  rail.append(control);
-  const anchor = breadcrumbs || main.firstElementChild;
-  if (anchor) anchor.after(rail);
-  else main.append(rail);
   if (!catalog) positionPanel(main, rail, control);
-  return { status, button, fallback };
 }
 
 function start(resources, incomingPass) {
@@ -419,13 +427,22 @@ function start(resources, incomingPass) {
 
 const resources = protectedResources();
 if (document.body.hasAttribute('data-pp-media-handoff')) {
-  if (resources.length || document.querySelector('img[src*="/bluriki-production-20261011/closed/"]')) {
+  const initialRail = document.querySelector('[data-pp-preview-rail]');
+  let destination;
+  if (initialRail) {
+    setupPanel(initialRail);
+    destination = initialRail.querySelector('.pp-media-handoff-link').href;
+  } else if (resources.length || document.querySelector('img[src*="/bluriki-production-20261011/closed/"]')) {
     const { status, button, fallback } = makePanel();
     status.textContent = 'Наклейки на месте · 18+';
     button.textContent = 'За пропуском к Робокоту';
-    const goToOriginal = () => location.assign(fallback.href);
-    button.addEventListener('click', goToOriginal);
-    document.querySelectorAll('[data-protected-play]').forEach((control) => control.addEventListener('click', goToOriginal));
+    destination = fallback.href;
+    button.addEventListener('click', () => location.assign(destination));
+  }
+  if (destination) {
+    document.querySelectorAll('[data-protected-play]').forEach((control) => {
+      control.addEventListener('click', () => location.assign(destination));
+    });
   }
 } else if (resources.length) {
   start(resources, consumePass());

@@ -1,17 +1,17 @@
 const ageDialog = document.querySelector('#pp-age');
 const cookieNotice = document.querySelector('[data-pp-cookie]');
-const brandTrain = document.querySelector('.pp-brand-train img');
 
-if (brandTrain) {
+for (const train of document.querySelectorAll('.pp-brand-train, [data-pp-hero-train]')) {
+  const image = train.querySelector('img');
   const reveal = () => {
-    brandTrain.decode().then(() => {
-      brandTrain.parentElement.dataset.ready = '';
+    image.decode().then(() => {
+      train.dataset.ready = '';
     }, () => {
       // Keep the embedded first frame if the animation cannot be decoded.
     });
   };
-  brandTrain.addEventListener('load', reveal);
-  if (brandTrain.complete) reveal();
+  image.addEventListener('load', reveal);
+  if (image.complete) reveal();
 }
 
 function preference(key) {
