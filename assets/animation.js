@@ -2,8 +2,7 @@ const breakpoints = [320, 480, 640, 960, 1200];
 const optionsAttribute = 'data-animate-sbs-opts';
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 const homePage = document.body.dataset.ppMediaPath === '/';
-const stationTextLead = 96;
-const stationTextDistance = 120;
+const stationTextRevealFraction = .42;
 
 function number(value, fallback = 0) {
   if (value == null || value === '') return fallback;
@@ -76,7 +75,7 @@ for (const element of document.querySelectorAll('.art-item[data-animate-sbs-even
     stationText,
     mobile: element.getAttribute('data-animate-mobile') === 'y',
     trigger: number(element.getAttribute('data-animate-sbs-trg'), 1),
-    offset: number(element.getAttribute('data-animate-sbs-trgofst')) + (stationText ? stationTextLead : 0),
+    offset: number(element.getAttribute('data-animate-sbs-trgofst')),
   });
 }
 
@@ -99,7 +98,8 @@ function update() {
   for (const [index, track] of active.entries()) {
     const position = positions[index];
     if (track.scroll) {
-      const time = Math.max(0, Math.min(track.duration, position));
+      const seek = track.stationText ? position / (viewport * stationTextRevealFraction) * track.duration : position;
+      const time = Math.max(0, Math.min(track.duration, seek));
       if (track.animation.currentTime !== time) track.animation.currentTime = time;
     } else if (position >= 0) {
       track.started = true;
@@ -134,9 +134,9 @@ function configure() {
     if (breakpoint < 1200 && !track.mobile) continue;
     const steps = stepsFor(track.element, breakpoint);
     if (!steps) continue;
-    const { duration: authoredDuration, keyframes } = timeline(steps, track.scroll, track.target);
-    // Keep the station artwork's motion, with readable text as it enters the viewport.
-    const duration = track.stationText ? Math.min(authoredDuration, stationTextDistance) : authoredDuration;
+    // Use the visible reveal segment without the authored transparent wait.
+    const reveal = track.stationText ? [{ ...steps.at(-2), di: 0 }, { ...steps.at(-1), dd: 0 }] : steps;
+    const { duration, keyframes } = timeline(reveal, track.scroll, track.target);
     const animation = track.target.animate(keyframes, { duration, fill: 'both' });
     animation.pause();
     animation.currentTime = 0;
